@@ -1,0 +1,17 @@
+{
+  "name": "claude-marketplace",
+  "owner": {
+    "name": "Ievgen Korotkyi"
+  },
+  "metadata": {
+    "description": "Internal Claude Code plugin marketplace — shared skills and workflows for the team.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "docs-standards",
+      "source": "./plugins/docs-standards",
+      "description": "Technical-documentation quality standards and audit workflow (writing-technical-docs skill + /review-doc command)."
+    }
+  ]
+}
