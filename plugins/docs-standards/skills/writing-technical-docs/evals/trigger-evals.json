@@ -1,0 +1,22 @@
+[
+  {"query": "write up a design doc for the new rate-limiter service — it needs to cover the token-bucket algorithm, the redis key schema, and the failure modes, aimed at the platform team", "should_trigger": true},
+  {"query": "can you document how our STAP nulling works? i want a markdown file that a new DSP hire could actually follow, with the covariance math spelled out", "should_trigger": true},
+  {"query": "this spec is a mess — half the symbols in the equations aren't defined and there are numbers with no units anywhere. clean the whole thing up", "should_trigger": true},
+  {"query": "the onboarding guide for the ingestion pipeline is confusing, people keep asking the same questions in standup. rewrite the architecture section so it's followable", "should_trigger": true},
+  {"query": "add a section to the api reference explaining the retry/backoff timing — right now it just says 'exponential backoff' with no actual formula", "should_trigger": true},
+  {"query": "make this ADR about our sharding strategy readable for a PM, not just the backend folks who wrote it", "should_trigger": true},
+  {"query": "i drafted an RFC for the new auth flow, can you review it and tighten it before i send it round — feels hand-wavy in places", "should_trigger": true},
+  {"query": "explain the FFT-based convolution in our filter, with a diagram, so the firmware team gets why it's O(n log n) instead of O(n^2)", "should_trigger": true},
+  {"query": "reviewers are dunking on our design doc because it claims '~30% faster' with zero derivation. go fix that across the doc", "should_trigger": true},
+  {"query": "put together the README for the crpa model repo: what it does, how to run the tests, and the acceptance-scenario results", "should_trigger": true},
+  {"query": "add a docstring to this python function that parses the yaml config, just a one-liner describing the args", "should_trigger": false},
+  {"query": "build me a plotly dashboard showing Q4 signups by region — a bar chart and a couple of KPI tiles, dark theme", "should_trigger": false},
+  {"query": "write a git commit message for these changes to the covariance solver", "should_trigger": false},
+  {"query": "summarize what this 40-page design doc says at a high level, i don't have time to read the whole thing", "should_trigger": false},
+  {"query": "translate our api docs from english to ukrainian, keep the code blocks as-is", "should_trigger": false},
+  {"query": "write unit tests for the estimate_cn0_dbhz function, cover the wrong-PRN and short-input cases", "should_trigger": false},
+  {"query": "fix this typo in the README, 'recieve' should be 'receive', line 42", "should_trigger": false},
+  {"query": "refactor this 300-line module, it's doing way too much and the functions are tangled", "should_trigger": false},
+  {"query": "draft a slack message for the team channel announcing the v2 release is out", "should_trigger": false},
+  {"query": "make a 10-slide deck for my conference talk on adaptive antenna arrays", "should_trigger": false}
+]
