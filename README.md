@@ -26,6 +26,34 @@ runs a full audit.
 
 To update later: `/plugin marketplace update claude-marketplace`.
 
+## Reliable adoption: pair the skill with a CLAUDE.md rule
+
+Skills **under-trigger by design**: Claude only consults a skill for tasks it can't
+easily handle on its own, so it reliably fires the `writing-technical-docs` skill when
+you ask it to *review/fix* a doc ("this spec is unclear", "the numbers have no
+derivation", `/review-doc`) but often skips it when you just say "write me a design
+doc" — it figures it can write that directly. (Measured: 100% precision, ~25% recall on
+first-draft requests; this is inherent to the trigger mechanism, not the wording.)
+
+For the standards to apply **every time**, add them as an always-on rule in the
+consuming repo's `CLAUDE.md` (or your personal `~/.claude/CLAUDE.md`). The skill then
+handles review/audit and explicit invocation; the CLAUDE.md rule guarantees the
+standards on first drafts too. Paste this:
+
+```markdown
+## Technical documentation
+For any technical document, spec, or explanatory writeup (design docs, RFCs, ADRs,
+API/reference docs, READMEs, test reports): (1) derive, don't assert — decode every
+symbol, show every number's derivation, explain each causal step; (2) define every
+term/convention/operation before first use, no forward references; (3) illustrate
+geometric/conceptual claims with figures (computed from real data preferred; draw
+vectors as vectors); (4) keep it self-contained — no load-bearing links to other docs;
+(5) readable by a non-specialist engineer as well as an expert; (6) render and visually
+inspect every figure/PDF before calling it done. When fixing feedback, sweep the whole
+document for that *class* of issue in one pass — never patch only the flagged spot.
+Run `/review-doc` for a full audit.
+```
+
 ## Auto-enroll a project (optional)
 
 To make a repository offer this plugin to anyone who opens it, commit a
