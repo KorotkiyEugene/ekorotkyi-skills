@@ -24,7 +24,24 @@ Replace `<git-host>/<org>` with wherever this repo lives (e.g.
 `writing-technical-docs` skill activates on documentation tasks and `/review-doc [path]`
 runs a full audit.
 
-To update later: `/plugin marketplace update claude-marketplace`.
+To update later: `/plugin marketplace update claude-marketplace`. Confirm it is active
+any time with `/plugin` (lists installed plugins) — `docs-standards` should appear.
+
+## Using it
+
+Once installed, in any of your projects:
+
+- **Automatically** — when you ask Claude to *review, tighten, or fix* a technical
+  document, or you complain that something in one is undefined/unexplained/hand-wavy
+  (e.g. "this spec is unclear", "these numbers have no derivation", "make this readable
+  for a new hire"), the `writing-technical-docs` skill activates and applies the six
+  standards.
+- **Explicitly** — run `/review-doc <path>` (or `/review-doc` for the doc in focus) to
+  force a full audit: Claude lists every violation grouped by standard, fixes the whole
+  class in one pass, and re-inspects any figures/PDFs it touched.
+- **Always-on (recommended for first drafts)** — the skill under-triggers when you just
+  say "write me a doc" (Claude writes it directly); pair it with the `CLAUDE.md` rule
+  below so the standards apply even then.
 
 ## Reliable adoption: pair the skill with a CLAUDE.md rule
 
