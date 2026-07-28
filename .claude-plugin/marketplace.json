@@ -4,7 +4,7 @@
     "name": "Ievgen Korotkyi"
   },
   "metadata": {
-    "description": "Internal Claude Code plugin marketplace — shared skills and workflows for the team.",
+    "description": "Internal Claude Code plugin marketplace \u2014 shared skills and workflows for the team.",
     "version": "0.1.0"
   },
   "plugins": [
@@ -12,6 +12,11 @@
       "name": "docs-standards",
       "source": "./plugins/docs-standards",
       "description": "Technical-documentation quality standards and audit workflow (writing-technical-docs skill + /review-doc command)."
+    },
+    {
+      "name": "fpga-design",
+      "source": "./plugins/fpga-design",
+      "description": "FPGA/ASIC digital-design discipline: synthesisable RTL patterns, mandatory timing constraints, and build verification (writing-synthesizable-rtl, constraining-fpga-designs, verifying-fpga-builds)."
     }
   ]
 }

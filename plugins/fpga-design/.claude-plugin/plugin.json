@@ -1,0 +1,21 @@
+{
+  "name": "fpga-design",
+  "version": "0.1.0",
+  "description": "Discipline for FPGA/ASIC digital design: write RTL that synthesises into the hardware you intended, never build without timing constraints, and verify a build rather than trusting its status line. Adds the writing-synthesizable-rtl, constraining-fpga-designs and verifying-fpga-builds skills.",
+  "author": {
+    "name": "Ievgen Korotkyi"
+  },
+  "keywords": [
+    "fpga",
+    "asic",
+    "rtl",
+    "verilog",
+    "vhdl",
+    "synthesis",
+    "timing-constraints",
+    "sdc",
+    "quartus",
+    "vivado",
+    "digital-design"
+  ]
+}

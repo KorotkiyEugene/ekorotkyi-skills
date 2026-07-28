@@ -9,6 +9,7 @@ workflows so everyone applies the same practices across their own projects.
 | Plugin | What it gives you |
 |---|---|
 | **docs-standards** | The `writing-technical-docs` skill (six documentation-quality standards + an audit checklist) and a `/review-doc` command. Triggers automatically whenever you write, review, or improve a technical document. |
+| **fpga-design** | Three skills for FPGA/ASIC work: `writing-synthesizable-rtl` (inference, latches, resets, CDC), `constraining-fpga-designs` (never build without an SDC), and `verifying-fpga-builds` (a tool reporting "0 errors" is not success). Triggers on HDL edits, project setup, and after any synthesis run. |
 
 ## Install (for teammates)
 
