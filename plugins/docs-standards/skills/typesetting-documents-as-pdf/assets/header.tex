@@ -1,0 +1,92 @@
+% LaTeX header for a Markdown-to-PDF build via pandoc.
+%
+% Adapt the marked values to your document; keep the comments. Each one records
+% why a setting exists, and that is what stops the next person from silently
+% undoing a fix while changing something adjacent.
+%
+% Run measure_source.py on the source first. It gives you the three numbers this
+% file needs: the widest fenced line (sets the monospace size), the widest table
+% row (decides wrapping and landscape), and whether box-drawing characters are
+% present (constrains the monospace font).
+
+\usepackage{microtype}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{pdflscape}     % for a table too wide even with wrapping columns
+\usepackage{xcolor}
+
+% Semantic colours, so a verdict reads as a verdict rather than as bold text.
+\definecolor{ink2}{HTML}{52514E}
+\definecolor{ok}{HTML}{0CA30C}
+\definecolor{bad}{HTML}{D03B3B}
+\newcommand{\hex}[1]{\texttt{0x#1}}
+\newcommand{\verdict}[2]{\textcolor{#1}{\textbf{#2}}}
+
+\captionsetup{font=small,labelfont=bf,width=.92\textwidth}
+
+% Block paragraphs rather than first-line indents: easier to scan on screen,
+% and it keeps code blocks and tables from looking detached from their prose.
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+
+% --- verbatim -------------------------------------------------------------
+% Set the size so the widest fenced line fits, and never enable line breaking:
+% if the fences contain ASCII or box-drawing diagrams, a break destroys the
+% picture, which is worse than any overflow.
+%
+% Sizing arithmetic, worked for the default below: a monospace advance width is
+% about 0.6 em, so N columns at size s occupy N x 0.6 x s points. With A4 and
+% 25 mm margins the text block is 160 mm = 455 pt, so 88 columns break even at
+% 455 / (88 x 0.6) = 8.6 pt. \footnotesize at an 11 pt base is 9 pt, and the
+% 0.86 mono scale below makes that 7.7 pt effective, leaving about 10% headroom.
+% Redo this for your own widest line; verify by rendering, not by the arithmetic.
+%
+% \verbatim@font is the hook that plain verbatim actually reads. \fvset and any
+% redefinition of Shaded apply only when syntax highlighting is on, which it is
+% not for fences carrying no language tag -- those produce plain verbatim.
+\makeatletter
+\renewcommand{\verbatim@font}{\footnotesize\ttfamily}
+\makeatother
+
+\renewcommand{\arraystretch}{1.15}
+
+% --- headings -------------------------------------------------------------
+% nobottomtitles* is titlesec's own mechanism for keeping a heading off the foot
+% of a page. It is needed because \clubpenalty only protects a lone first LINE
+% of a paragraph; a heading followed by a table or a code block is a different
+% construct and TeX will break between them quite happily.
+%
+% \Needspace does NOT work here -- not by patching \section, and not inside the
+% format argument below, because titlesec evaluates that argument inside the
+% title box rather than in vertical mode. Increasing the reservation looks like
+% it should help and changes nothing.
+%
+% Size \bottomtitlespace to cover a heading plus a meaningful opening chunk of
+% whatever follows. A heading followed by a table needs room for the table's
+% header row and its first wrapped row; 0.22\textheight is about 11 lines at
+% these settings.
+\usepackage[nobottomtitles*]{titlesec}
+\titleformat{\section}{\Large\bfseries}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries}{\thesubsection}{0.6em}{}
+\titlespacing*{\section}{0pt}{2.4ex plus 1ex minus .2ex}{1.2ex plus .2ex}
+\titlespacing*{\subsection}{0pt}{1.8ex plus .8ex minus .2ex}{0.8ex plus .2ex}
+\renewcommand{\bottomtitlespace}{0.22\textheight}
+
+% --- block quotes ---------------------------------------------------------
+% A left rule rather than italics: a quotation of more than a sentence or two
+% is harder to read set in italics than it is with a marked margin.
+\definecolor{rulegray}{gray}{0.70}
+\renewenvironment{quote}
+  {\begin{list}{}{\setlength{\leftmargin}{1.6em}%
+                  \setlength{\rightmargin}{0.5em}%
+                  \setlength{\listparindent}{0pt}%
+                  \setlength{\itemindent}{0pt}}%
+   \item\relax\small
+   \makebox[0pt][r]{\textcolor{rulegray}{\vrule width 2pt height 1.9ex depth 0.6ex}\hspace{0.9em}}\ignorespaces}
+  {\end{list}}
+
+\widowpenalty=10000
+\clubpenalty=10000

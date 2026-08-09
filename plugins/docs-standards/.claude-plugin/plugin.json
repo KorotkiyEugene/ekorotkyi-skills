@@ -1,9 +1,20 @@
 {
   "name": "docs-standards",
-  "version": "0.1.0",
-  "description": "Standards and an audit workflow for high-quality technical documentation: derive every claim, define before use, illustrate concepts, keep it self-contained, fix systematically, and verify visuals. Adds the writing-technical-docs skill and a /review-doc command.",
+  "version": "0.3.0",
+  "description": "Standards and an audit workflow for high-quality technical documentation: derive every claim, define before use, illustrate concepts, keep it self-contained, control punctuation rhythm, fix systematically, and verify visuals. Adds the writing-technical-docs skill, the typesetting-documents-as-pdf skill, and a /review-doc command.",
   "author": {
     "name": "Ievgen Korotkyi"
   },
-  "keywords": ["documentation", "technical-writing", "design-docs", "specs", "review"]
+  "keywords": [
+    "documentation",
+    "technical-writing",
+    "design-docs",
+    "specs",
+    "review",
+    "em-dash",
+    "pdf",
+    "typesetting",
+    "pandoc",
+    "latex"
+  ]
 }

@@ -32,7 +32,7 @@ carelessness. One systematic pass costs you a few minutes and buys the reader a 
 they can trust. If you catch yourself editing the exact thing that was flagged and
 nothing else, stop — you are doing it wrong.
 
-## The six standards
+## The seven standards
 
 Create a todo for each of these and check the whole document against it.
 
@@ -97,6 +97,29 @@ collisions, clipped edges, overflow, squashed aspect ratios, and plain wrong val
 common and only visible to the eye. If your environment can render an image, render it
 and inspect it; if it cannot, say so explicitly rather than assuming success.
 
+### 7. Punctuation rhythm
+
+Published technical writing (IEEE transactions, engineering textbooks) uses the em
+dash sparingly (roughly once per page), so each one lands as real emphasis.
+Model-drafted prose defaults to dashes as connective glue at 20–30× that rate, and
+the document stops sounding like the literature it cites.
+
+Write each connection with the mark that names the relationship:
+
+- An aside or appositive sits in parentheses or between commas: "the phase step ψ
+  (set by the arrival angle) plays the frequency."
+- An explanation or consequence follows a colon: "That is invisible as a time
+  shift: at 20 MHz one sample lasts 50 ns."
+- Two related independent clauses get a semicolon or two separate sentences.
+- A restatement is introduced by "i.e." or "that is".
+- The em dash marks a genuine interruption or emphatic turn: a place where the
+  reader should feel the break. In a finished document that is a handful of
+  instances total (at most about one per ten sentences of prose).
+
+Structural separators are a different thing and stay: "Appendix A — Title"
+headings, term — definition rows in glossaries and symbol tables, and "—" as an
+empty-cell placeholder.
+
 ## Two modes
 
 ### Writing a new document
@@ -104,13 +127,13 @@ and inspect it; if it cannot, say so explicitly rather than assuming success.
 1. Start from the reader's path, not the section list: what must they understand
    first, second, third? Introduce each concept the first time it is *needed*, in
    data-flow / cause-and-effect order.
-2. Draft with the six standards on from the start — it is cheaper than retrofitting.
+2. Draft with the seven standards on from the start — it is cheaper than retrofitting.
 3. Before presenting: run the audit below.
 
 ### Reviewing or improving an existing document (or acting on feedback)
 
 1. Read the WHOLE document first. Do not start editing at the first problem.
-2. For each of the six standards, scan the entire document and list every violation —
+2. For each of the seven standards, scan the entire document and list every violation —
    every undefined symbol, every asserted number, every un-illustrated concept, every
    forward reference. This list is the work.
 3. Fix the whole list in one pass (the "one rule" above).
@@ -128,6 +151,7 @@ Run this before calling a document done. Answer each with a concrete location, n
 - [ ] **Self-contained:** no argument depends on the reader opening another document.
 - [ ] **Two audiences:** a non-specialist engineer could follow the causal chain.
 - [ ] **Visuals verified:** every figure/PDF rendered and eyeballed; values and layout correct.
+- [ ] **Punctuation:** em dashes in prose only at genuine emphatic breaks (at most ~1 per 10 sentences); asides sit in parentheses/commas, explanations after colons. Structural separators (headings, glossary rows, empty cells) are exempt.
 - [ ] **Systematic:** if this pass was triggered by one piece of feedback, the whole *class* of that issue was swept, not just the flagged instance.
 
 ## Red flags that you are drifting
@@ -137,3 +161,4 @@ Run this before calling a document done. Answer each with a concrete location, n
 - You wrote "as shown above/below" pointing at something not yet (or never) shown.
 - You committed a figure you did not open, or a PDF you did not page through.
 - A number appears with no unit, no derivation, and no citation.
+- Two em dashes in one sentence, or a dash where a comma, colon, or parenthesis names the relationship: the dash has become your default connective.

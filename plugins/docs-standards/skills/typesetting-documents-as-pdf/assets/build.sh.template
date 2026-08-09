@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+# Rebuild the typeset PDF. Adapt the marked lines; keep the structure.
+#
+# Commit this next to the PDF it produces. A PDF whose build cannot be repeated
+# is a dead end the first time the source changes, and the flags below are not
+# reconstructable from the output.
+set -euo pipefail
+cd "$(dirname "$0")"
+
+SRC=../DOCUMENT.md            # <-- the Markdown source
+OUT=../DOCUMENT.pdf           # <-- where the PDF goes
+
+# If the source carries its own title block and you are replacing it with
+# front.tex (so the date does not silently follow \today), drop those lines
+# here. Adjust the count, or delete these two lines if you keep the source's
+# own title.
+tail -n +11 "$SRC" > /tmp/body.md
+
+pandoc /tmp/body.md -o "$OUT" \
+  --pdf-engine=tectonic \
+  --from=gfm+pipe_tables+footnotes+smart \
+  `# +smart is load-bearing: without it every ASCII quote in the source` \
+  `# comes out as a CLOSING quote.` \
+  --top-level-division=section \
+  --lua-filter=tablewidths.lua \
+  `# gfm carries no column widths, so pandoc emits non-wrapping 'l' columns` \
+  `# and wide tables run off the paper.` \
+  --lua-filter=codebreaks.lua \
+  `# pandoc renders inline code with control spaces, making long spans one` \
+  `# rigid box that cannot break.` \
+  -H header.tex \
+  --include-before-body=front.tex \
+  `# delete the line above if there is no hand-set title block` \
+  -V documentclass=article -V papersize=a4 -V fontsize=11pt \
+  -V geometry:"margin=25mm" \
+  -V mainfont="PT Serif" \
+  -V monofont="Menlo" -V monofontoptions="Scale=0.86"
+  `# the monospace face must cover U+2500-U+257F if the document has any` \
+  `# box-drawing diagrams, or they render as tofu.`
+
+echo "wrote $OUT"
+echo
+echo "Now verify. A zero exit status says nothing about the pages:"
+echo "  python3 inspect_pdf.py    $OUT"
+echo "  python3 contact_sheet.py  $OUT ./_review"
