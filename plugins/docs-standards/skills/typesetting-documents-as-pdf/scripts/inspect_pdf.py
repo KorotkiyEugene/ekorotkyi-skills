@@ -48,6 +48,32 @@ def run(cmd):
     return subprocess.run(cmd, capture_output=True, text=True).stdout
 
 
+def preflight(pdf: str) -> None:
+    """Fail loudly rather than reporting a clean bill of health for nothing.
+
+    This exists because the script did the opposite. Given a path that did not
+    exist, every check found nothing to complain about, so it printed four OKs
+    and exited 0 -- indistinguishable from a perfect document. A verification
+    tool that reports success when it has verified nothing is worse than no
+    tool, because it manufactures exactly the false confidence this skill is
+    written to prevent. It was hit in real use, from the wrong directory.
+    """
+    from pathlib import Path
+    import shutil
+
+    if shutil.which("pdftotext") is None:
+        sys.exit("inspect_pdf: pdftotext not found on PATH (install poppler)")
+    p = Path(pdf)
+    if not p.exists():
+        sys.exit(f"inspect_pdf: no such file: {pdf}")
+    if not p.is_file():
+        sys.exit(f"inspect_pdf: not a file: {pdf}")
+    if p.stat().st_size == 0:
+        sys.exit(f"inspect_pdf: file is empty: {pdf}")
+    if p.read_bytes()[:5] != b"%PDF-":
+        sys.exit(f"inspect_pdf: not a PDF (no %PDF- header): {pdf}")
+
+
 def check_overflow(pdf, page_w, margin):
     bbox = run(["pdftotext", "-bbox", pdf, "-"])
     page, worst = 0, {}
@@ -94,9 +120,16 @@ def main() -> int:
                     help="leading pages to skip in the orphan check (title/TOC)")
     a = ap.parse_args()
 
+    preflight(a.pdf)
+
     problems = 0
 
     block_end, rows = check_overflow(a.pdf, a.page_width, a.margin)
+    if not rows:
+        sys.exit(f"inspect_pdf: extracted 0 pages from {a.pdf}. The file is a PDF "
+                 "but no text came out of it -- a scanned image, an encrypted "
+                 "file, or a broken build. Nothing below would have been checked, "
+                 "so this is a failure and not a clean result.")
     bad = [(p, d) for p, d in rows if d > a.protrusion_ok]
     worst = max((d for _, d in rows), default=0.0)
     print(f"1. OVERFLOW  text block ends at {block_end:.1f} pt, paper at {a.page_width:.1f} pt")
