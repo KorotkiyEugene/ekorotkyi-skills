@@ -1,0 +1,23 @@
+{
+  "name": "sunburst-hdl",
+  "version": "0.1.0",
+  "description": "Verilog/SystemVerilog design discipline distilled from Clifford Cummings' award-winning Sunburst Design papers (SNUG/DVCon/ICU best-paper awards): race-free assignments and testbenches, async FIFOs, clock-domain crossing, FSM coding, case-statement safety, SV processes and ports, designer-grade SVA, and simulation performance.",
+  "author": {
+    "name": "Ievgen Korotkyi"
+  },
+  "keywords": [
+    "verilog",
+    "systemverilog",
+    "rtl",
+    "cdc",
+    "async-fifo",
+    "fsm",
+    "nonblocking",
+    "race-condition",
+    "sva",
+    "assertions",
+    "simulation-performance",
+    "sunburst",
+    "cummings"
+  ]
+}

@@ -1,0 +1,80 @@
+---
+name: avoiding-verilog-races
+description: Use when writing or reviewing ANY Verilog/SystemVerilog always block, testbench, clock generator, reset sequence, or stimulus code — and when simulation results differ between runs, simulators, or pre- vs post-synthesis, when a $display shows a "stale" value, or when someone proposes adding #0 or #1 delays "to fix" a nonblocking assignment.
+---
+
+# Avoiding Verilog Race Conditions
+
+Distilled from three award-winning Cummings papers: *Nonblocking Assignments in Verilog Synthesis, Coding Styles That Kill!* (SNUG-2000, Best Paper), *Verilog Nonblocking Assignments With Delays, Myths & Mysteries* (SNUG-2002), *SystemVerilog Event Regions, Race Avoidance & Guidelines* (SNUG-2006, with Arturo Salz).
+
+## Overview
+
+A Verilog race is code whose result legally depends on the order the simulator picks for same-time events. The scheduler settles each time slot region by region — Active (blocking assigns, `$display`, NBA right-hand-side evaluation) → Inactive (`#0`) → NBA update → Postponed (`$strobe`/`$monitor`) — and **within a region, order is arbitrary**. Every rule below exists to keep your intent out of the arbitrary part.
+
+**Following the 8 guidelines removes 90–100% of Verilog race conditions** (Cummings, across all three papers). RTL code that violates them can still synthesize correctly while simulating wrongly — or vice versa — so nothing in a passing sim excuses a violation.
+
+## The 8 rules (RTL)
+
+| # | Rule |
+|---|------|
+| 1 | Sequential logic → nonblocking (`<=`) |
+| 2 | Latches → nonblocking |
+| 3 | Combinational logic in an always block → blocking (`=`) |
+| 4 | Mixed sequential+combinational in one block → nonblocking |
+| 5 | Never mix `=` and `<=` in one always block |
+| 6 | Never assign one variable from two always/initial blocks |
+| 7 | `$strobe` (not `$display`) to see NBA-updated values |
+| 8 | Never use `#0` |
+
+SystemVerilog: `always_ff`/`always_comb`/`always_latch` make the compiler enforce #6 (and catch #5-style errors) — use them. In SV, declaration initializers (`bit clk = 1;`) execute *before* time 0 and cause no time-0 event.
+
+Why #1 holds even when order "looks" controllable: a 3-stage pipeline coded `q1=d; q2=q1; q3=q2;` synthesizes to **one register**; the same statements as NBAs are correct in any order. An LFSR (any feedback loop) cannot be ordered correctly with blocking assigns at all.
+
+## Testbench discipline — where reviews actually fail
+
+Race-free RTL is routinely paired with racy testbenches. The canonical race-free TB skeleton:
+
+```systemverilog
+`define CYCLE 10
+logic clk, rst_n;
+
+initial begin
+  clk <= 0;                        // FIRST clock assignment nonblocking: the time-0
+  forever #(`CYCLE/2) clk = ~clk;  // X->0 edge fires after all processes are active
+end                                // (one initial block — never a separate `always #5`)
+
+initial begin
+  rst_n <= 0;                      // time-0 reset via NBA, never `rst_n = 0;`
+  @(posedge clk);
+  @(negedge clk) rst_n = 1;        // release on the INACTIVE edge
+end
+
+initial begin                      // stimulus: blocking assigns on the INACTIVE edge,
+  @(negedge clk) a = 1;            // no fixed #delays (survives clock-period changes,
+  @(negedge clk) a = 0;            // and works unmodified against gate-level netlists)
+end
+```
+
+- Clock oscillator lives in the top-level **module** (never a `program` block).
+- Driving stimulus on the *active* edge is a race against the DUT's always blocks unless everything is NBA-driven — and then it changes DUT inputs in zero time, which breaks gate-level sims on hold time. Inactive-edge stimulus avoids both.
+- SV alternative: a `clocking` block with `default output negedge` enforces this by construction.
+
+## Myths (each one is a documented mismatch)
+
+| Myth | Truth |
+|---|---|
+| "`#0` pushes the assignment to the end of the step" | It goes to the *Inactive* region — still **before** NBA updates. `#0 $display` shows the old value. |
+| "NBAs are broken; `#1` fixes them" | NBAs are fine. `<= #1` everywhere cost 18–92% sim time (VCS benchmarks); #1 on only 10% of flops was nearly as slow — some #1s kill NBA optimization design-wide. If you want clk-to-q in waves, use a macro: `` `define D #1 `` under `` `ifdef``, empty by default. |
+| "Two NBAs to one variable in a block is undefined" | Defined: **last NBA wins** (IEEE 1364 §5.4.1). From two *blocks* it's a race — and Synopsys builds two flops into an AND gate (silent pre/post-synthesis mismatch). |
+| "Blocking assigns are OK for a simple single-always DFF" | Works alone, breeds the habit that kills in multi-block designs. |
+
+## Also
+
+- Put `` `timescale `` in front of every module containing `#` delays (directives are compile-order-dependent).
+- Never put delays on the RHS of *blocking* assignments — events (e.g. a mid-cycle reset) get missed.
+- Zero-skew copies of one clock don't race NBA-coded logic — unless a clock is itself generated by an NBA (`clk1b <= clk1a;` re-breaks the guarantee; watch clock gating).
+- A transport delay line is one idiom: `always @(in) y <= #TAP in;` — all pulses pass, delayed.
+
+## Red flags — stop and fix
+
+`#0` anywhere · `initial clk = 0;` or `initial rst_n = 0;` (blocking, time-0) · a standalone `always #5 clk = ~clk;` oscillator · reset released `@(posedge clk)` with a blocking assign · `<= #1` sprinkled on RTL · `$display` right after an NBA · one signal driven from two blocks.

@@ -17,6 +17,11 @@
       "name": "fpga-design",
       "source": "./plugins/fpga-design",
       "description": "FPGA/ASIC digital-design discipline: synthesisable RTL patterns, mandatory timing constraints, and build verification (writing-synthesizable-rtl, constraining-fpga-designs, verifying-fpga-builds)."
+    },
+    {
+      "name": "sunburst-hdl",
+      "source": "./plugins/sunburst-hdl",
+      "description": "Verilog/SystemVerilog discipline from Cliff Cummings' award-winning Sunburst Design papers: race-free coding and testbenches, async FIFOs, CDC, FSM styles, case-statement safety, SV processes/ports, designer SVA, simulation performance."
     }
   ]
 }
