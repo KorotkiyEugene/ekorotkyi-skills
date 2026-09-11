@@ -1,0 +1,18 @@
+[
+  {"query": "document the architecture of this inherited FPGA project — the top level instantiates 48 modules and I only have some of the sources", "should_trigger": true},
+  {"query": "draw a block diagram of ProjectMain.v with every instance, bus widths and clock domains", "should_trigger": true},
+  {"query": "where in this repo is the CPU firmware stored? I can't find any hex or mif files", "should_trigger": true},
+  {"query": "write review notes on InterfaceBlockA.v: what each peripheral does and its address on the bus", "should_trigger": true},
+  {"query": "which files listed in the .qsf are actually present in this checkout, and which are missing?", "should_trigger": true},
+  {"query": "the Verilog_model folder has same-named modules as prj/ but they look different — figure out which ones are usable as references and write it up", "should_trigger": true},
+  {"query": "explain how the bus decoding and interrupts work in this soft CPU we got from the previous contractor", "should_trigger": true},
+  {"query": "put together a module inventory for the legacy DSP chain with a note on what each block does", "should_trigger": true},
+  {"query": "write a design doc for the new rate limiter service I'm about to build, covering the token-bucket algorithm and redis schema", "should_trigger": false},
+  {"query": "convert this markdown report to a PDF with proper tables", "should_trigger": false},
+  {"query": "write a FIFO in SystemVerilog with parameterisable depth and a full/empty flag", "should_trigger": false},
+  {"query": "fix the timing violation on the clk_10M to clk crossing in my design", "should_trigger": false},
+  {"query": "summarize this 40-page design doc at a high level, I don't have time to read it", "should_trigger": false},
+  {"query": "write unit tests for the parse_qsf function", "should_trigger": false},
+  {"query": "tighten the derivations in my STAP nulling spec, half the symbols aren't defined", "should_trigger": false},
+  {"query": "generate the SDC constraints for a 101 MHz PLL-derived clock", "should_trigger": false}
+]

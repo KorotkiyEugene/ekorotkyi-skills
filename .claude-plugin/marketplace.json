@@ -4,14 +4,14 @@
     "name": "Ievgen Korotkyi"
   },
   "metadata": {
-    "description": "Internal Claude Code plugin marketplace \u2014 shared skills and workflows for the team.",
+    "description": "Internal Claude Code plugin marketplace — shared skills and workflows for the team.",
     "version": "0.1.0"
   },
   "plugins": [
     {
       "name": "docs-standards",
       "source": "./plugins/docs-standards",
-      "description": "Technical-documentation quality standards, an audit workflow, and PDF typesetting (writing-technical-docs + typesetting-documents-as-pdf skills, /review-doc command)."
+      "description": "Technical-documentation quality standards, an audit workflow, PDF typesetting, and analysis reports of existing designs (writing-technical-docs + typesetting-documents-as-pdf + documenting-existing-designs skills, /review-doc command)."
     },
     {
       "name": "fpga-design",
