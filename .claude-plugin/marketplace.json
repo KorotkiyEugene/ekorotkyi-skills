@@ -1,17 +1,17 @@
 {
-  "name": "claude-marketplace",
+  "name": "ekorotkyi-skills",
   "owner": {
     "name": "Ievgen Korotkyi"
   },
   "metadata": {
-    "description": "Internal Claude Code plugin marketplace — shared skills and workflows for the team.",
+    "description": "Internal Claude Code plugin marketplace: shared skills and workflows for the team.",
     "version": "0.1.0"
   },
   "plugins": [
     {
       "name": "docs-standards",
       "source": "./plugins/docs-standards",
-      "description": "Technical-documentation quality standards, an audit workflow, PDF typesetting, and analysis reports of existing designs (writing-technical-docs + typesetting-documents-as-pdf + documenting-existing-designs skills, /review-doc command)."
+      "description": "Technical-documentation quality standards (for documents and for explanations given in chat), an audit workflow, the shape of a measurement or comparison report, PDF typesetting with section-reference and glyph checking, and analysis reports of existing designs verified against real artefacts (writing-technical-docs + reporting-experiments + typesetting-documents-as-pdf + documenting-existing-designs skills, /review-doc command)."
     },
     {
       "name": "fpga-design",

@@ -2,7 +2,7 @@
 
 This repo is a Claude Code **plugin marketplace**. New knowledge is added as skills,
 commands, or whole plugins, then pushed so teammates pull it with
-`/plugin marketplace update claude-marketplace`.
+`/plugin marketplace update ekorotkyi-skills`.
 
 ## 1. Pick the right artifact
 
@@ -26,9 +26,11 @@ plugins.
    ---
    name: <skill-name>
    description: >-
-     What it does AND — most importantly — WHEN to trigger. Be specific and a little
-     pushy: list the concrete phrasings/contexts that should invoke it. The description
-     is the entire triggering mechanism.
+     WHEN to trigger, in the third person, starting with "Use when". Be specific and a
+     little pushy: list the concrete phrasings and contexts that should invoke it. Do not
+     summarise what the skill does: an agent that reads a workflow summary in the
+     description follows the summary instead of the skill. The description is the entire
+     triggering mechanism.
    ---
 
    # <Title>
@@ -36,7 +38,7 @@ plugins.
    ~500 lines; push long detail into references/.
    ```
 
-2. Skills are auto-discovered under `skills/` — **no manifest edit needed**.
+2. Skills are auto-discovered under `skills/`; **no manifest edit needed**.
 3. Bump `version` in `plugins/<plugin>/.claude-plugin/plugin.json`.
 4. Commit and push.
 
@@ -60,7 +62,7 @@ plugins.
    { "name": "<new>", "source": "./plugins/<new>", "description": "…" }
    ```
 
-4. Commit and push. Teammates then `/plugin install <new>@claude-marketplace`.
+4. Commit and push. Teammates then `/plugin install <new>@ekorotkyi-skills`.
 
 ## 3. Test locally before pushing
 
@@ -68,7 +70,7 @@ Add the marketplace from its local path, install, and try the skill in a real ta
 
 ```
 /plugin marketplace add /absolute/path/to/claude-marketplace
-/plugin install <plugin>@claude-marketplace
+/plugin install <plugin>@ekorotkyi-skills
 ```
 
 Iterate on the SKILL.md, then push once it behaves.
@@ -87,6 +89,6 @@ always-on rule in the consuming repo's `CLAUDE.md` (see the README).
 
 ## 5. Versioning & distribution
 
-- Bump the plugin `version` on every change — that is the signal teammates have updates.
-- They pull with `/plugin marketplace update claude-marketplace`.
+- Bump the plugin `version` on every change; that is the signal teammates have updates.
+- They pull with `/plugin marketplace update ekorotkyi-skills`.
 - Keep the marketplace pushed to the shared Git host; it is consumed *as a git repo*.
