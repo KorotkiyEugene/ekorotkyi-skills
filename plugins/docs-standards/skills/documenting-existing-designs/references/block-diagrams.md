@@ -73,5 +73,5 @@ exists because its absence was rejected.
   editable master such as draw.io) plus a coarser A4 overview in the report. Both from one
   style file and one connection table so they cannot diverge.
 - Render with the real tool (`pdftoppm` for PDF, the draw.io CLI for `.drawio`), inspect
-  the full page and 2–3× crops, and re-render after every rebuild; never inspect stale
+  the full page and 2 to 3× crops, and re-render after every rebuild; never inspect stale
   images.

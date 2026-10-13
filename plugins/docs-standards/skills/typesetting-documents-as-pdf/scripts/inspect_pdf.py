@@ -98,7 +98,8 @@ def check_orphans(pdf, skip_pages):
         if len(lines) < 2:
             continue
         last, prev = lines[-1], lines[-2]
-        if PAGENUM.match(last) and HEADING.match(prev):
+        # a heading never ends in sentence punctuation; a body line that happens to start with a number does
+        if PAGENUM.match(last) and HEADING.match(prev) and not prev.rstrip().endswith((".", ",", ";", ":", ")")):
             out.append((n, prev.strip()[:70]))
     return out
 

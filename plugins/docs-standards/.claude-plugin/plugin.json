@@ -1,7 +1,7 @@
 {
   "name": "docs-standards",
-  "version": "0.4.0",
-  "description": "Standards and an audit workflow for high-quality technical documentation: derive every claim, define before use, illustrate concepts, keep it self-contained, control punctuation rhythm, fix systematically, and verify visuals. Adds the writing-technical-docs skill, the typesetting-documents-as-pdf skill, the documenting-existing-designs skill (provenance-tiered analysis reports and audited block diagrams of inherited code), and a /review-doc command.",
+  "version": "0.7.0",
+  "description": "Standards and an audit workflow for high-quality technical documentation and for explanations given in chat: derive every claim (with the hardware's non-ideal terms), define before use (notation tables with code names, symbols decoded where they appear, the kind of every product named, informal labels built before they are used), one running numeric example carrying the whole argument, illustrate concepts, keep it self-contained, open every stage with what and why, show every artefact you name, generate numbers and cross-references, point by name or anchor and never by an invented label, propagate corrections, no dashes as connectives, no status labels in titles, fix systematically, and verify visuals. Adds the writing-technical-docs skill (with a Ukrainian engineering-prose reference), the reporting-experiments skill (the shape of a measurement or comparison report: derived conditions, the measurement ceiling, calibrated metrics, controls before mechanisms, what the test does not show, reproduction, defect ledgers), the typesetting-documents-as-pdf skill (with check_section_refs.py and the silent-glyph fault), the documenting-existing-designs skill (provenance-tiered analysis reports, audited block diagrams, verification against real artefacts with coverage accounting), and a /review-doc command.",
   "author": {
     "name": "Ievgen Korotkyi"
   },
@@ -20,6 +20,17 @@
     "block-diagram",
     "provenance",
     "inventory",
-    "rtl"
+    "rtl",
+    "verification",
+    "coverage",
+    "firmware",
+    "experiments",
+    "test-report",
+    "measurements",
+    "comparison",
+    "reproducibility",
+    "ukrainian",
+    "terminology",
+    "notation"
   ]
 }

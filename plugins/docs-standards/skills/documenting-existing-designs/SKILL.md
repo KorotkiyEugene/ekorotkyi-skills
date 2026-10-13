@@ -3,7 +3,7 @@ name: documenting-existing-designs
 description: >-
   Use when producing a report, design summary, block diagram, module inventory, or a
   "where is X / how does X work / what is missing" answer about an EXISTING codebase or
-  hardware design that you did not write — reverse-engineering an inherited FPGA/RTL
+  hardware design that you did not write: reverse-engineering an inherited FPGA/RTL
   project, a legacy service, a vendor drop, a partial checkout, or a tree that mixes
   several revisions of the same modules. Trigger on "document this design", "draw the
   block diagram of", "what does this module do", "which files are missing", "write up
@@ -85,7 +85,7 @@ and only then check the *rendering*.
 Tier-C blocks are drawn as black boxes with their inferred pins, visually distinct from
 read blocks (dashed border), and the legend explains every visual encoding used. The full
 rules, including what a block diagram of a hardware design must and must not show, are in
-`references/block-diagrams.md` — read it before drawing. If the drawing tool cannot express
+`references/block-diagrams.md`; read it before drawing. If the drawing tool cannot express
 a rule (Mermaid has no junction-dot trunk and no split fill), the legend states which rule
 was substituted and how, so the reader knows the deviation is the tool's, not the design's.
 
@@ -109,6 +109,40 @@ source line, and what was rendered and looked at. If something could not be veri
 the environment (no renderer, no simulator), the statement says so rather than implying
 it was.
 
+## 7. Verification against real artefacts, when they exist
+
+When a real artefact of the design is available (a flash dump, a captured stream, a
+production image, a log), the report verifies its structural claims against it and says
+what that verification did and did not cover. Four rules, all learnt the hard way:
+
+- **Decode with a kept script; account for the whole.** The decoder that reads the
+  artefact is shipped beside the report and its output is what the report's tables
+  include. It ends with a coverage accounting: every element of the artefact (every
+  programmed byte of the image) either lies inside a decoded structure or is listed as
+  unexplained. A structure that "matches" while a third of the bytes are unattributed
+  has not been verified.
+- **Recompute, do not compare.** Checksums, signatures, cross-field arithmetic (a
+  counter that must advance by the previous record's length, a threshold that the
+  recorded maxima must be consistent with) are recomputed by the decoder and reported
+  as pass/fail rows, not read off by eye.
+- **Scope the variant.** If the artefact comes from a different variant of the design
+  (another channel count, another device, another build), the report states which
+  claims rest on code the artefact proves is shared (formats that match exactly) and
+  which rest on the design that produced it (bit maps, calibrations, channel-dependent
+  sizes), with a per-quantity table saying which transfer and which do not. Design-
+  dependent fields from the other variant are quoted as raw values, not interpreted
+  with this design's bit map.
+- **When two readings disagree, decode the bytes yourself.** Two sub-analyses gave
+  opposite mappings for a pair of templates; both were wrong in part. The decision was
+  made by decoding the template bytes and printing the check, and the print is in the
+  report. A disagreement between analyses is never settled by picking one.
+
+The artefacts themselves live in the report's tree: a copy of the image or file the
+report describes (with a build-time guard that it still equals the original), the full
+generated listing or decode, and the scripts. A reader must be able to reproduce every
+number without the analyst's scratch directory. Corrections the artefact forces on an
+earlier report are applied there and listed here (`writing-technical-docs`, standard 9).
+
 ## Quick reference
 
 | Report part | Required element |
@@ -120,6 +154,7 @@ it was.
 | Numbers | Arithmetic or `file:line` beside each |
 | Anomalies | `file:line` + consequence; no invented cause |
 | Closing | Verification statement naming the checks run and the ones not possible |
+| Artefacts | Decoder shipped; coverage accounting with the leftover listed; checks recomputed as pass/fail rows; variant scope stated per quantity; source artefact copied into the tree with a drift guard |
 
 **REQUIRED BACKGROUND:** `writing-technical-docs` governs the prose (derive, define,
 illustrate, self-contained, verify visuals). `typesetting-documents-as-pdf` governs the
