@@ -82,6 +82,13 @@ itself.
 Why: a forward reference forces the reader to hold an undefined token in their head and
 read on faith, or to stop and search. Both break the flow you are trying to build.
 
+A term is introduced by its full name, the name that says what the thing is of or for, and
+a short form is used afterwards only if a reader who opens the document at that page, having
+read nothing before, still knows what the word means: «assessor» passes, «cycle», «final»,
+«export» and «platform» do not and keep their full names («assessment cycle», «competency
+final») wherever they appear. A definition never defines the short form: «One assessment of
+one engineer is a cycle» leaves the reader not knowing what the cycle is a cycle of.
+
 Three classes of token are left undefined most often, because to the author they do not
 look like terms at all:
 
