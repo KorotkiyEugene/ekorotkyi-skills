@@ -4,7 +4,7 @@
     "name": "Ievgen Korotkyi"
   },
   "metadata": {
-    "description": "Internal Claude Code plugin marketplace: shared skills and workflows for the team.",
+    "description": "Claude Code plugin marketplace: skills for technical writing, FPGA/ASIC design and Verilog/SystemVerilog coding.",
     "version": "0.1.0"
   },
   "plugins": [

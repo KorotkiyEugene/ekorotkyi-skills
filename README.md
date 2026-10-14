@@ -23,8 +23,7 @@ From inside Claude Code, register the marketplace once and install the plugins y
 ```
 
 The same works from a shell with `claude plugin marketplace add` and `claude plugin
-install`. The repository is private, so the machine needs read access to it through its
-git credentials.
+install`. The repository is public, so no GitHub account or credentials are needed.
 
 To pick up new versions later:
 
