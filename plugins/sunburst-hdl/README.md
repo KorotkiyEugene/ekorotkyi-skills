@@ -8,6 +8,13 @@ recorded), the skill was written to target those failures, and the same task
 was re-run *with* the skill and verified (including real Icarus/Verilator runs
 where applicable).
 
+## Install
+
+```
+/plugin marketplace add KorotkiyEugene/ekorotkyi-skills
+/plugin install sunburst-hdl@ekorotkyi-skills
+```
+
 ## Skills
 
 | Skill | Source papers (award) |

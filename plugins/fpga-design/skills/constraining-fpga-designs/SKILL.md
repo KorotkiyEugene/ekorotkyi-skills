@@ -155,3 +155,11 @@ Verify the constraints actually took effect rather than assuming they did. See t
 | `-setup` multicycle with no `-hold` | Relaxes setup, leaves hold checked at the wrong edge. |
 | Constraining only the fast clock | Unconstrained domains are not analysed at all. |
 | `.sdc` present but not in the project file | Identical to having no constraints. |
+
+## Vendor reference
+
+Quartus specifics that this skill does not repeat (the full list of log codes and what
+each means, editions and licensing, running in a container and on Apple Silicon,
+measured compile times, where each output file lands) are in
+`../../reference/quartus-toolchain.md`, relative to this file. Read it before quoting a
+code, a runtime or a path for Quartus; every figure there came from a real run.

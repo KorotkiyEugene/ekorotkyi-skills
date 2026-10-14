@@ -167,3 +167,11 @@ hardware.
 | Two-flop synchroniser on a multi-bit bus | Bits arrive on different cycles; the value is corrupt. |
 | Blocking assignments in clocked blocks | Simulation/synthesis mismatch. |
 | Trusting simulation alone | Simulation cannot show you that a RAM became registers. |
+
+## Vendor reference
+
+Quartus specifics that this skill does not repeat (the full list of log codes and what
+each means, editions and licensing, running in a container and on Apple Silicon,
+measured compile times, where each output file lands) are in
+`../../reference/quartus-toolchain.md`, relative to this file. Read it before quoting a
+code, a runtime or a path for Quartus; every figure there came from a real run.

@@ -123,3 +123,11 @@ Freeze what varies before drawing conclusions from a comparison.
 | Quoting Fmax from an unconstrained build | It is measured against a fabricated clock. |
 | Checking setup slack only | Hold violations are unfixable in the field. |
 | Comparing two builds where pins were auto-placed | The placements are not comparable. |
+
+## Vendor reference
+
+Quartus specifics that this skill does not repeat (the full list of log codes and what
+each means, editions and licensing, running in a container and on Apple Silicon,
+measured compile times, where each output file lands) are in
+`../../reference/quartus-toolchain.md`, relative to this file. Read it before quoting a
+code, a runtime or a path for Quartus; every figure there came from a real run.

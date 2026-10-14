@@ -13,10 +13,16 @@ commands, or whole plugins, then pushed so teammates pull it with
 | A new theme/domain | a **new plugin** | `plugins/<new>/` + register in the marketplace manifest |
 | Long detail supporting a skill | a **reference file** | `plugins/<plugin>/skills/<name>/references/` |
 | A deterministic helper a skill runs | a **script** | `plugins/<plugin>/skills/<name>/scripts/` |
+| Lookup material shared by several skills of one plugin | a **plugin-level reference** | `plugins/<plugin>/reference/` |
 
-A **plugin** is one coherent theme (`docs-standards`, later maybe `dsp-fpga`,
-`code-review`). Related skills live together in one plugin. One marketplace holds many
-plugins.
+Claude loads only `skills/`, `commands/`, `agents/` and `hooks/` on its own. A file under
+`references/` or a plugin-level `reference/` is read only when a `SKILL.md` names it, so
+every such file needs a pointer from the skill that uses it, written as a path relative
+to that `SKILL.md` (`${CLAUDE_PLUGIN_ROOT}` is substituted in hooks and MCP configs, not
+in markdown).
+
+A **plugin** is one coherent theme (`docs-standards`, `fpga-design`, `sunburst-hdl`).
+Related skills live together in one plugin. One marketplace holds many plugins.
 
 ## 2a. Add a skill to an existing plugin
 
@@ -69,16 +75,23 @@ plugins.
 Add the marketplace from its local path, install, and try the skill in a real task:
 
 ```
-/plugin marketplace add /absolute/path/to/claude-marketplace
+/plugin marketplace add /absolute/path/to/ekorotkyi-skills
 /plugin install <plugin>@ekorotkyi-skills
 ```
 
-Iterate on the SKILL.md, then push once it behaves.
+Iterate on the SKILL.md, then push once it behaves. Before pushing, run
+
+```
+claude plugin validate .
+```
+
+from the repository root: it checks the catalog, every plugin manifest, and the skill
+frontmatter, and refuses names that collide with official marketplaces.
 
 ## 4. Author with skill-creator (recommended)
 
 The fastest good path is to let Claude scaffold it: in any Claude Code session say
-*"add a skill to my claude-marketplace for X"*. Claude uses the `skill-creator` skill to
+*"add a skill to ekorotkyi-skills for X"*. Claude uses the `skill-creator` skill to
 draft the SKILL.md, and can run the **description-optimization loop** (generates
 trigger / no-trigger eval queries and tunes the `description`). Save the eval set under
 the skill's `evals/` so the optimization is reproducible; git-ignore the `*.log`.
