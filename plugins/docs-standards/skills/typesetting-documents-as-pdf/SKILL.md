@@ -262,6 +262,103 @@ workflow: you fix something, rebuild the PDF, then inspect page images that are 
 the previous build and conclude the fix did not work, or worse, that it did. Delete the
 old images as part of the rebuild, or compare timestamps before trusting what you see.
 
+## The checks a long document grows
+
+A document of a hundred pages or more, with tables, listings, figures and a reader who
+copies commands from it, meets defects the five faults above do not cover. Each of these
+was found by a page reader on a finished build and then closed by a check in the build,
+so that the next build cannot reopen it. Every check reads the built PDF (with
+`pdftotext -bbox-layout`, which keeps a table cell's lines in one block) or the source,
+and fails the build; none replaces looking at the pages.
+
+- **Sentences.** `scripts/check_sentences.py SRC.md` fails a prose sentence of more than
+  40 words or with a semicolon, skipping code, quotations, citations and a «Sources:» line
+  (the rule of `writing-technical-docs`).
+- **Loose lines.** `scripts/check_word_gaps.py OUT.pdf` fails a justified line whose
+  median word space is 4.95 pt or more, or whose mean space is 5.5 pt or more, and a
+  caption line at 3.7 pt or more. TeX's badness does not see them: it measures the stretch
+  of the font's spaces, and the engine warns only above a badness of 1000, while the eye
+  draws the line near 5 pt. The thresholds were set from one page reader's verdicts on one
+  font; for another font, run the script with `--report` on a build a reader has looked
+  at and set them from that reader's loose and accepted lines. The fix is a non-breaking
+  space or a hyphenation hint first, a recast of the sentence only where the setting
+  cannot do it.
+- **Breaks inside what the reader copies.** No line ends inside an identifier, a path, a
+  citation, a number written with spaces between its groups, a number and its unit, an
+  option and its value, a key and its value, a placeholder in angle brackets, or a command
+  and its first argument; a hyphen TeX inserts into an identifier is indistinguishable from
+  one the identifier holds. The filters that make code breakable (fault 2 above) decide
+  where a break may fall; a scan of every line end of the PDF, classed by what it parts,
+  is their witness, and a kind of break the document has not decided fails the build
+  until someone decides it. Bind «Figure» to its number, a number to its unit and a
+  command to its subcommand with no-break spaces in the source expansion.
+- **Stranded lead-ins and empty page feet.** Beyond the orphaned heading (fault 4): a page
+  whose last line ends in a colon has left the sentence that introduces a list, a listing
+  or a table at its foot; a page whose last ink ends more than a tenth of the text block
+  above a full page's foot is empty without cause, unless the next page begins with a
+  chapter, a figure or a change of orientation; a figure or a floating table that opens a
+  page after a page ending inside a sentence has split that sentence. A figure stands in
+  the section that first cites it, after that citation, in the order of first citations,
+  and never more than a page after its citation. Short things are kept whole: a table no
+  taller than half a page, a listing of up to twenty lines, a list of up to six items, a
+  lead-in with its table, a heading with its first rows; the filters hold them, and a
+  check on the PDF proves that nothing short was split.
+- **A figure's place is chosen by trial.** Its source stands in its section after the
+  paragraph that first cites it or at the section's end; when the typeset page leaves a
+  foot empty or splits a sentence, build the document with the figure at each paragraph
+  boundary of the section in turn and keep the place that leaves the least of the pages
+  empty with the checks above passing. A figure as tall as a page, or one cited early on a
+  page, is marked as a page figure: the text after it fills the page before it in whole
+  paragraphs instead of waiting. An edit that moves a page break can call for another
+  place, and the checks say when.
+- **Table cells set two words a line.** A narrow column sets its prose a word or two per
+  line while a neighbour has room; a check of every cell's words per line (below 2.5 on
+  average fails) catches what column-width heuristics miss.
+- **The frame's language.** In an English document that quotes a product's screens in
+  another script, the title, the headings, the captions and the table headers carry no
+  word of the other script outside guillemets or a code span, and the product is named in
+  the document's language. A check on the expanded source, generated tables included,
+  guards it, because the title page is the first place a reader rejects a document.
+- **References by name, numbered by the toolchain.** The source names a part («section
+  «Sessions»», «appendix «Configuration reference»»), a filter prints its number and links
+  it, and a check fails a name that matches no heading, two headings that read the same, a
+  pointer by position («the next section», «above»), a bare line number, a table without a
+  caption and a caption cited nowhere. A step number typed into a runbook is checked
+  against the runbook's numbered steps.
+- **Citations that resolve.** Every `file:line` of the expanded source is resolved to a
+  file at the commit the document states, its lines read, and a citation whose lines
+  changed since fails; a listing of every citation with its lines is written for a person
+  to read, because whether the line says what the sentence says is not a machine's call.
+  A paragraph with more than three inline citations is sent to a «Sources:» line.
+- **Terms defined once, where the glossary says.** With a glossary of term, meaning and
+  the section that explains it, a check fails a term used before that section, marked as
+  defined twice, marked nowhere, or replaced in the text by a name the document gave up.
+- **Quoted lines come from records.** A line of a log, a record or a command's output that
+  the text prints is taken from the kept record by its line numbers, never typed, and a
+  typed listing line that copies a record line fails: either would drift at the next run.
+- **Printed text is as written.** A command or a quotation in the PDF holds the straight
+  quotes and double hyphens of the source (smart typography must not reach it), a
+  placeholder in angle brackets is not eaten as an HTML tag, and no backslash is lost
+  before a pipe inside a table cell.
+- **Attachments by hash.** Files the reader is told to save from the PDF are listed by
+  name with their SHA-256 in the document, and a check detaches them from the built PDF
+  and compares, so that a PDF built from other files than the text describes fails.
+- **Figure labels.** A legend entry that is not a sentence, a label line broken between a
+  number and its unit or beside «=», an edge within a point of a label, a label on a box
+  or on another label: the figure script fails before it draws.
+
+**Thresholds are set once, from measurement against a reader.** A page reader names the
+lines, cells or feet that look wrong on one build; the check is run with a report mode on
+that build; the threshold goes between the worst the reader accepted and the best the
+reader named. Write the measurement into the script's docstring, so that the next person
+knows what the number protects.
+
+**The page gate runs once, at the end.** Every page of the final build is rendered at 80
+dpi and looked at, by the agent that runs the process itself, after the text is finished, not beside every content
+round: each layout fix moves pages and makes new breaks, so a layout loop beside a content
+loop cannot converge. Residues the tools cannot close (a page foot a floating table
+leaves short, a last page with one paragraph) are listed at delivery with their cause.
+
 ## Make it reproducible
 
 Commit the build inputs next to the output: the header, any templates, the filters, and a
@@ -279,6 +376,8 @@ the next change does not silently undo the fix.
 - `scripts/codebreaks.lua`: pandoc filter making long inline code breakable
 - `scripts/inspect_pdf.py`: overflow, orphaned headings, dash and quote census
 - `scripts/check_section_refs.py`: hand-typed §N.M references checked against the built ToC, with a resolution list
+- `scripts/check_sentences.py`: a prose sentence of more than 40 words, or with a semicolon, fails
+- `scripts/check_word_gaps.py`: a justified line a reader sees as loose fails, with `--report` for calibrating the thresholds on another font
 - `scripts/contact_sheet.py`: page thumbnails for visual paging
 - `assets/header.tex`: a commented LaTeX header carrying the fixes above
 - `assets/build.sh.template`: the build command, ready to adapt

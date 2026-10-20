@@ -101,13 +101,29 @@ Do not silently fix it in the description of the design, and do not attach a sto
 ("evidently hand-edited after the last build") that the evidence does not contain. The
 finding is the observation plus its consequence; the cause is the reader's to establish.
 
-## 6. A verification statement
+## 6. A verification statement, and a «Not verified» list
 
 The report ends by saying what was mechanically checked: the inventory script that
 produced the counts, the diagram audit that passed, which numbers were traced to a
 source line, and what was rendered and looked at. If something could not be verified in
 the environment (no renderer, no simulator), the statement says so rather than implying
 it was.
+
+Beside it, one list of what the document states and nobody ran: a deployment manifest
+never applied to a real cluster, a console procedure never clicked through, a path of
+the code never exercised by a test. Each item names what would verify it. Nothing on
+that list is presented as verified anywhere else in the document, and the list is
+complete rather than reassuring, since a reader who finds one unsourced claim treats the
+whole document as unsourced. When a record is re-made because the thing under test
+changed (a file the image is built from, a script the measurement runs), the report names
+the commit the records were made at and the order and times of the runs, so that no run
+was timed under another's load, and every number that moved is swept through the text
+(`reporting-experiments`).
+
+Files the reader is told to save from the document (schemas, manifests, variable files)
+travel inside the PDF as attachments and are listed by name with their SHA-256 where the
+reader saves them, so that what was saved can be checked against what the text
+describes, and the build fails when an attachment is missing or differs.
 
 ## 7. Verification against real artefacts, when they exist
 
@@ -153,7 +169,9 @@ earlier report are applied there and listed here (`writing-technical-docs`, stan
 | Figures | Tier mark on every block; C blocks are dashed black boxes; legend covers every encoding |
 | Numbers | Arithmetic or `file:line` beside each |
 | Anomalies | `file:line` + consequence; no invented cause |
-| Closing | Verification statement naming the checks run and the ones not possible |
+| Closing | Verification statement naming the checks run and the ones not possible; a «Not verified» list of what nobody ran, each item with what would verify it |
+| Records | The commit and the times of the runs that made them; re-made whenever the thing under test changed |
+| Attachments | Files the reader saves from the PDF listed by name with their SHA-256; the build checks them |
 | Artefacts | Decoder shipped; coverage accounting with the leftover listed; checks recomputed as pass/fail rows; variant scope stated per quantity; source artefact copied into the tree with a drift guard |
 
 **REQUIRED BACKGROUND:** `writing-technical-docs` governs the prose (derive, define,

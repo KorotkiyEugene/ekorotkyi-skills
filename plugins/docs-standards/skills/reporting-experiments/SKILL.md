@@ -95,7 +95,16 @@ has the same hypothesis needs to know it was tested.
   corrected), every run made before the change is invalid: clear any resume cache that
   would reuse old results, re-run everything, then sweep every document for every number
   the tables changed (`writing-technical-docs`, standard 9). The pre-change numbers
-  survive in one place only, the defect ledger, as the measured cost of the defect.
+  survive in one place only, the defect ledger, as the measured cost of the defect. The
+  same holds for a comment: a correction to a comment in the file the thing under test
+  is built from changes its provenance, and the records are made again.
+- A record carries the commit of the thing it measured and the start and end time of its
+  run, and timed runs go one after the other, never side by side, so that none is timed
+  under another's load. The build that reads the records refuses a record whose commit
+  is not the one being built, so that the text cannot quote a number measured on other
+  code. A number that moved between two runs for a reason nobody established is reported
+  with the words «the cause was not established», never with a cause invented to fill
+  the gap.
 
 ## When the campaign finds defects in the thing under test
 

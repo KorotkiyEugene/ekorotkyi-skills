@@ -71,6 +71,17 @@ error, finite word length, ADC dynamic range, finite sample support, latency. A 
 depth derived for matched channels and quoted without the mismatch term is a number the
 hardware will never show.
 
+In a document about a system (its architecture, its deployment, its operation), the
+provenance of a statement is a line of the source or a record, cited. A fact the writer
+remembers, infers or finds plausible is cited to its line or left out, and a clause whose
+cited page turns out not to carry it is dropped, not kept on trust. What was not run on a
+real system (a manifest never applied, a console procedure never clicked through, a path
+never exercised) is listed in one section, «Not verified», and presented as verified
+nowhere else. Nothing is added that nobody asked for: a document gains no fact because the
+writer found it interesting, since every added sentence is one more the reader must check.
+A name quoted from a record, a script or a screen keeps its wording even where the
+document's own term has changed, and the text says once what the quoted name stands for.
+
 ### 2. Define before first use
 
 Introduce every term, symbol, unit, convention, coordinate frame, and named operation
@@ -84,10 +95,23 @@ read on faith, or to stop and search. Both break the flow you are trying to buil
 
 A term is introduced by its full name, the name that says what the thing is of or for, and
 a short form is used afterwards only if a reader who opens the document at that page, having
-read nothing before, still knows what the word means: «assessor» passes, «cycle», «final»,
-«export» and «platform» do not and keep their full names («assessment cycle», «competency
-final») wherever they appear. A definition never defines the short form: «One assessment of
-one engineer is a cycle» leaves the reader not knowing what the cycle is a cycle of.
+read nothing before, still knows what the word means: «operator» passes, «cycle», «final»,
+«export» and «platform» do not and keep their full names («billing cycle», «audit export»,
+«container platform») wherever they appear. A definition never defines the short form:
+«One run of the pipeline over one tenant is a cycle» leaves the reader not knowing what
+the cycle is a cycle of.
+
+The same holds for tools, commands and products, and it holds per chapter. A command of the
+framework, an abbreviation of the protocol, a resource kind of the platform is said to be
+what it is at its first use in each chapter, in a sentence of its own («the framework's
+command `build` compiles the application»), because a reader opens a chapter, not the
+document. The term the writer finds too standard to define is the one the reader asks
+about: a file format every engineer of the stack knows is still defined at its first
+mention. A reference to a part of the document carries the part's number, set by the
+toolchain, and is a link to it; the name alone tells the reader neither that it is a part
+of this document nor where. And the vocabulary is the field's own, checked against the
+field's references (its standards, its vendors' manuals), not a near-synonym the writer
+coined.
 
 Three classes of token are left undefined most often, because to the author they do not
 look like terms at all:
@@ -143,6 +167,13 @@ background instead of pointing away for it. Cross-references to companion docume
 fine as *optional further reading*, never as a load-bearing dependency the argument
 relies on.
 
+For a document that deploys or operates a system, the test is sharper: the operator must
+be able to do it with the document alone, without opening the repository. Every command
+is printed complete, every file a procedure needs (a schema, a manifest, a set of
+variables) is printed or attached to the document, and every value is derived or cited
+inside it. Check each step of each procedure with one question: could I run this without
+the repository?
+
 ### 5. Two-audience readability
 
 Write so a specialist and a competent generalist both get through it. This mostly means
@@ -154,7 +185,24 @@ Each section about a stage, a block or a component opens with what it does and w
 exists, in plain words, before the first formula or line of code. The formula tells the
 reader how the stage works; without the what and the why in front of it they have nowhere
 to put it. The reader who already knows skips one sentence; the reader who does not is
-lost without it.
+lost without it. A chapter opens the same way: one paragraph on what it describes and for
+whom, before its first section.
+
+The test of a sentence is the reader who has not used the stack the text names. A tool, a
+command, a product or a term is said to be what it is at its first use in the chapter
+(standard 2), every pronoun and every «the other», «their», «those» has its noun in the
+same sentence, and no noun phrase stands where a sentence should («the database the only
+state» is a label nobody can read). A detail that a figure or a table beside the sentence
+already shows is not repeated in prose, and a count that helps no reader is dropped rather
+than decomposed: «the figure draws them as seven arrows» is not fixed by naming the seven,
+it is fixed by deleting the seven. Legends and labels are sentences.
+
+This is checked by a read, not by a checklist: every writer and checker who knows the stack
+reads the shorthand as clear. Before anyone else sees a chapter, one fresh reader told to
+know none of the frameworks, protocols and platforms the text names reads it with one
+question, «can I understand this sentence on the first read, and do I need it?», and
+lists every place that fails. The brief is `references/outsider-reader-brief.md`. Every
+place on the list is rewritten as an instance of its class across the document.
 
 ### 6. Verify visuals before claiming done
 
@@ -245,6 +293,31 @@ why, and with which numbers, where a reader can use it. The same holds for notes
 reviewer left in the text ("TODO", "check this", "per your comment"): a document is
 finished when nothing in it speaks to anyone but its reader.
 
+The form is a professional's, and a reader who notices a machine wrote it stops trusting
+it. The habits that give it away, each banned:
+
+- **The document talking about itself.** The title page holds the title, the subtitle and
+  the revision line (a commit, a build, a date), nothing else: no abstract, no «about this
+  document», no conventions block, no list of readers. A convention the reader needs is
+  one plain sentence where it is first needed. No sentence narrates the build, states the
+  obvious («recovered from the repository»), justifies the document's own choices,
+  apologises for layout, or counts the document's own pages and tables.
+- **Restating.** A figure is not described three times, in a lead-in, a caption and the
+  prose. The caption is one or two descriptive sentences; the prose says what the reader
+  does with the figure. Provenance and verification are stated once, in the verification
+  chapter, not on every caption.
+- **Headings that are not names.** A heading is a noun phrase naming its subject, never a
+  question, a «how to», a gerund or a sentence, and the sections of one chapter are of one
+  kind and one level. A file name and a title promise chapters by those names: a document
+  called «design and verification» has a chapter «Verification», and a revision may
+  reorganise inside such a chapter but never renames or dissolves it. No section that is
+  only a preamble, no parent with a single child, no flat pile where grouping is the
+  information.
+- **The heading tree moves after approval.** The tree is designed before the first
+  sentence and approved by the owner, and from then on a reference, a reviewer or a
+  rewrite never regroups, renames or reorders headings on its own: a change to the tree is
+  proposed as a tree and made on the owner's word.
+
 ### 12. One example carries the whole argument
 
 An explanation is one continuous build-up on a single concrete example, chosen small
@@ -267,6 +340,16 @@ The example earns its place by being checkable: real numbers that add up, a figu
 computed from them where the construction is geometric (standard 3), and the general
 formula shown to reduce to the example's numbers.
 
+In a document about a product or a service, the example is the thing's own case: its real
+counts, its real screens, the position its specification describes, never an invented toy.
+The rule is stated in words a colleague would say aloud, with the real numbers, and the
+code identifiers and letter symbols stay in the citation, not in the sentence that states
+the rule. A reader of such a document rejects «let N be the number of replicas and
+Q = ⌊N/2⌋ + 1 the quorum (`quorum()` in the coordinator); example: a cluster of three
+replicas has N = 3 and Q = 2» as prose nobody writes, and accepts «a write succeeds once
+more than half of the replicas hold it: 2 of 3, 3 of 5». Where this register and a
+standard disagree, the register wins, and the reviewer is told so.
+
 ### 13. Point by name or by anchor, never by an invented label
 
 A reference into the document names the thing ("the conjugate-and-sum of §2.1", "the
@@ -282,6 +365,63 @@ towering eigenvalues this produces"), and the float sits on the page where it is
 figure that no sentence points to is decoration the reader may never connect to the
 argument; a figure three pages from its citation is one the reader has to hunt for.
 
+In the source, a figure stands right after the paragraph that first cites it, or at the
+end of the section that does, so that the typeset figure follows its citation on the same
+page or the next and never crosses another section's heading. Its legend is part of the
+figure script, and every legend entry and every label is a sentence («A white box is an
+entry point.»), not a chain of colons and parentheses; a figure script that accepts a
+legend entry which is not a sentence is corrected before the figure is. Every table has a
+caption and is cited by its number; a part of the document is referred to by its name, and
+the toolchain prints its number and makes the phrase a link.
+
+## Sentences and register
+
+The standards say what a document must contain. The sentences carry it, and a document
+whose sentences a reader stumbles on fails before a single number is checked. The register
+is the one of the system's own user-facing text, or of a colleague saying the fact aloud:
+plain sentences, a rule stated once in words, a concrete example with the real counts, the
+evidence last. These rules hold in every prose sentence, in every language:
+
+- **One idea per sentence**, about 25 words, never more than 40. No semicolon in running
+  prose: two clauses are two sentences (this outranks the semicolon that standard 10
+  allows; a table cell may still list with semicolons). Subject, verb, object. No chain of
+  three nouns. No «but» for «except». No «so», «thus», «therefore» unless the cause is in
+  the same sentence. No filler, hedges, self-narration or colloquial shorthand.
+- **The noun is in the sentence.** A pronoun stands next to the noun it replaces, or the
+  noun is repeated. Every number carries its noun. A rule comes before its example, a
+  definition before its use.
+- **A value belongs to the thing**, never to the person who produced it: «the limits the
+  operators set», never «the operators' limits». A button is named with its screen or its
+  user, never as that person's property.
+- **A list item is named once**, in words; a code value is not doubled beside the word
+  («Pending, `pending`»): the mapping to the code's value is stated once before the list
+  or shown in the figure.
+- **The fact first, the evidence last.** Citations go into one «Sources:» line at the end
+  of the paragraph, the document's own convention stated once, not into parentheses after
+  every clause. A citation stays inline only where the sentence is about that line.
+- **A code identifier appears in running text only when the sentence is about it**: a
+  variable the operator sets, a route, a file to open. Never as a stand-in for an idea: not
+  «as `ALLOWED_MOVES` allows» but «the service allows only the moves of its state table»;
+  not «`inProd` is true when» but «the service treats itself as production when».
+- **No letter symbols and no formulas** except where the document computes a number the
+  reader needs, and then with the real counts.
+- **A check in a runbook is a sentence** that says what to expect («Check that the health
+  endpoint answers `{"ok":true}`»), never a fragment after a colon. A step is one
+  imperative sentence, its command, its expected output.
+- **Every sentence earns its place.** Before delivery, take each sentence out and ask
+  whether the reader loses anything; a sentence that adds a definition to what the reader
+  already understood, a count nobody uses, or a detail the figure beside it shows, goes.
+  A derivation stays only where the reader must check or size something: a limit, a wait,
+  a connection count.
+- **A quoted string in another language carries its gloss** in the document's language,
+  once, where it is first quoted: a screen text, a log line, a result a script prints.
+- **The language is written, not translated**: a Ukrainian sentence that reads like its
+  English original with the words swapped fails (`references/ukrainian-engineering-prose.md`).
+
+The countable part is enforced by the build: `check_sentences.py` of
+`typesetting-documents-as-pdf` fails a prose sentence of more than 40 words or with a
+semicolon. The rest is enforced by the reads below.
+
 ## Three modes
 
 ### Writing a new document
@@ -289,8 +429,64 @@ argument; a figure three pages from its citation is one the reader has to hunt f
 1. Start from the reader's path, not the section list: what must they understand
    first, second, third? Introduce each concept the first time it is *needed*, in
    data-flow / cause-and-effect order.
-2. Draft with the thirteen standards on from the start; it is cheaper than retrofitting.
-3. Before presenting: run the audit below.
+2. The heading tree first, approved by the owner, then frozen (standard 11). A heading's
+   body is exactly what its title names. The reference documents of the field (the
+   professional documents of the same shape) inform what a section contains and how its
+   prose reads; they never justify a change to the tree.
+3. Draft with the thirteen standards on from the start; it is cheaper than retrofitting.
+4. One author writes the whole text. When the writing is delegated to agents, one agent
+   writes every part of the document, in the document's order, and no second writer works
+   beside it. A text split among several agents writing in parallel has no integrity: each
+   agent settles the names, the definitions and the register on its own, and the reader
+   meets a different document in every chapter. Agents in parallel are for reading,
+   checking and auditing a finished text, never for writing parts of one. A writer that
+   must be replaced (context lost, usage limit reached) is replaced by one new writer,
+   which reads the finished chapters as its register before writing a line.
+5. The writer writes with the standards and the sentence rules open, every fact from the
+   cited line it opens, and runs its own checklist on each chapter before anyone reads
+   it: a term, tool or command said what it is at its first use in the chapter; every
+   pronoun with its noun in the sentence; no noun phrase for a sentence; no detail the
+   figure or table beside it shows; legends and labels as sentences; the chapter's opening
+   paragraph; the sentence rules above.
+6. Readers, on finished text only, in this order: the outsider read of each chapter
+   (`references/outsider-reader-brief.md`, a fresh agent per chapter and per pass, three
+   passes at most), each list rewritten by the one writer as classes across the whole
+   document; then the audience read of the whole document
+   (`references/audience-read-brief.md`, one fresh agent, once), whose five verdicts and
+   residues go to the writer once; then the page gate of `typesetting-documents-as-pdf`,
+   once, on the final build. The agent that runs the process reads a chapter in full
+   itself before claiming anything about the document: agent verdicts are inputs, not
+   the standard.
+7. Verification is bounded, because an agent asked to find defects finds defects every
+   time, and each fresh hunter applies a stricter bar than the last. Before the first
+   verification agent starts, the stop condition and the budget are written down. The
+   criterion for a finding is closed: «false against its source» or «an instance of the
+   class the owner stated, in the owner's words». Two verification passes at most; a third
+   needs the owner's word. A sweep of a class begins with the class restated in one
+   sentence and three to five old/new examples shown to the owner, and no sweep runs
+   before the owner's yes: a wrong class swept perfectly is still wrong, and a class
+   derived from one example («every count shows its parts» from one unparseable count) is
+   usually wrong. No second loop beside the first: a layout audit does not run beside a
+   content fix, since every layout fix moves pages and makes new breaks.
+8. Deliver once: the whole document, with one verdict line per acceptance criterion from
+   the audience read and the residue counts, the list of every change to text the owner
+   had approved as old/new pairs, the facts the owner should know (what is not verified,
+   what was decided without asking), and the layout residues the tools cannot close with
+   their cause. Never a diff, never an acknowledgement, never a partial result shown as
+   progress. Finished work is on the main branch when the message is sent, or the message
+   says in its first line that it is not. A finding the owner makes afterwards is answered
+   with the reason and the corrected text, never with an agreement or an apology, and
+   becomes a rule of the skill only after the owner has approved the text that applies it.
+9. Keep the record as the work runs. The first chapter the owner approves is the register
+   for every later one: each later chapter is compared with it before a reader sees it,
+   and the readers are asked whether it is the same hand. A handoff written before a
+   context clear carries the owner's instructions verbatim with their times, and a plan
+   derived from those words, never a process the agent invented (an approval stop per
+   chapter, writers in parallel). Every time in a log comes from `date -u`, never from a
+   guess. Rounds are committed as work-in-progress commits with one line each and
+   squashed into one commit at delivery. An estimate names what it assumes, and when the
+   class is not inventoried by a script, the time is said to be unknown rather than guessed.
+10. Before presenting: run the audit below.
 
 ### Explaining something in a chat reply
 
@@ -312,11 +508,23 @@ argument; a figure three pages from its citation is one the reader has to hunt f
 ### Reviewing or improving an existing document (or acting on feedback)
 
 1. Read the WHOLE document first. Do not start editing at the first problem.
-2. For each of the thirteen standards, scan the entire document and list every violation:
+2. Run the outsider read of standard 5 on each chapter first and keep its list apart: the
+   elementary faults (a command used as if known, a pronoun without its noun, a label that
+   is not a sentence) must not be buried under the audit's findings.
+3. For each of the thirteen standards, scan the entire document and list every violation:
    every undefined symbol, every asserted number, every un-illustrated concept, every
    forward reference. This list is the work.
-3. Fix the whole list in one pass (the "one rule" above).
-4. Re-render and inspect any figures/PDFs you touched (standard 6).
+4. When the pass was triggered by the owner's finding, restate the class in one sentence
+   and show three to five old/new examples before sweeping: the fix the owner means is
+   often not the one the example suggests (an unparseable count is fixed by deleting the
+   count, not by naming its parts), and a wrong class swept across the document costs
+   days.
+5. Fix the whole list in one pass (the "one rule" above), by one writer: the list is not
+   divided among several agents, for the reason given under "Writing a new document".
+   Rewrite paragraphs whole rather than patching words into them.
+6. Re-render and inspect any figures/PDFs you touched (standard 6), and verify once with
+   a closed criterion; findings of another kind go to the owner as a list, not into a
+   second round.
 
 ## The audit checklist
 
@@ -343,6 +551,15 @@ Run this before calling a document done. Answer each with a concrete location, n
 - [ ] **Punctuation:** `grep -n '—\|–'` on the source and the figure scripts returns nothing but minus signs and a matched house-style separator; asides sit in parentheses or commas, explanations after colons.
 - [ ] **Reader-facing:** no status label in any title or heading, no note to the reviewer in the text; edition history is a body section.
 - [ ] **Language:** for a document in Ukrainian, the terminology sweep of `references/ukrainian-engineering-prose.md` was run on the prose and on the figure scripts.
+- [ ] **Sentences:** every prose sentence is one idea of at most 40 words with no semicolon (`check_sentences.py` passes), every pronoun has its noun in its sentence, every number its noun, and no code identifier stands in for an idea.
+- [ ] **Register:** rules are stated in words with the real counts, evidence in one «Sources:» line per paragraph, no toy example and no symbol prose in a document about a product.
+- [ ] **Outsider read:** one reader told to know none of the frameworks, protocols and platforms the text names has read every chapter with one question, «can I understand this sentence on the first read, and do I need it?», and every place on its list is rewritten as a class.
+- [ ] **Audience read:** one reader has read the whole built document once as the reader of the title page and given a verdict per criterion (structure, language, facts, form, completeness); every decisive residue is fixed, every minor one applied once.
+- [ ] **Chapter openings and terms per chapter:** every chapter opens with what it describes and for whom; every tool, command and product is said what it is at its first use in each chapter.
+- [ ] **Counts and details:** no count that helps no reader, no detail a figure or table beside the sentence shows, every legend entry and label a sentence.
+- [ ] **Facts and sources:** in a document about a system, every statement comes from a cited line or record, what was not run is in «Not verified», and nothing was added that nobody asked for.
+- [ ] **Form:** the title page is bare, headings are noun phrases of one kind per level, the chapters the title promises exist, the approved heading tree is unchanged, no sentence talks about the document itself.
+- [ ] **Bounded:** the verification had a written stop condition and budget, at most two passes, and the owner saw old/new examples before any sweep.
 - [ ] **Systematic:** if this pass was triggered by one piece of feedback, the whole *class* of that issue was swept, not just the flagged instance.
 
 ## Red flags that you are drifting
@@ -365,3 +582,14 @@ Run this before calling a document done. Answer each with a concrete location, n
 - A figure that no sentence cites, or a citation whose figure is pages away.
 - The reader's follow-up question is about a word in your previous answer.
 - A Ukrainian sentence reads like its English original with the words swapped.
+- A sentence of 50 words, or two clauses joined by a semicolon: two ideas, two sentences.
+- A command, an abbreviation or a resource kind used in a chapter as if the reader knew it.
+- «their», «the other three», «those»: a pronoun whose noun is in another sentence.
+- A count in prose («seven arrows») that the reader can neither use nor check against the figure.
+- A legend entry written «term: meaning (style)» instead of as a sentence.
+- A title page with an abstract, a conventions block or a readers list; a sentence about the document's own build.
+- A heading that asks a question or starts with «How»; a chapter the title promised that is no longer there.
+- A fact you remember rather than read from the cited line; an untested procedure presented as verified.
+- A sweep started from one example without the owner's yes, or a third verification round.
+- A hunter's list growing with every reread: the criterion is open, and the loop has no end.
+- A delivery that is a diff, a partial result, or an acknowledgement rather than the whole document with its verdicts.

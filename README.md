@@ -67,19 +67,22 @@ contributor trusts the folder, and the plugins install at the next session start
 
 ## docs-standards
 
-Standards for technical writing and an audit workflow. Version 0.7.0.
+Standards for technical writing, a production process and an audit workflow. Version 0.8.0.
 
 | Skill | Fires when | What it does |
 |---|---|---|
-| `writing-technical-docs` | Writing, reviewing or fixing a design doc, spec, README, report, or explaining something in chat | Applies thirteen standards: derive rather than assert, define before first use (with notation tables that carry code names), illustrate concepts, keep the document self-contained, write for two audiences, verify visuals, show every artefact you name, generate numbers and cross-references, propagate corrections, no dashes as connectives, address the reader not the reviewer, one running example, point by name or anchor. Includes a reference on engineering prose in Ukrainian. |
-| `reporting-experiments` | Writing up measured results: a comparison, benchmark, A/B test, parameter sweep, verification campaign or test report | Fixes the shape of the report: derived conditions, the measurement ceiling, calibrated metrics, controls before mechanisms, what the test does not show, how to reproduce it, and a ledger of defects found on the way. |
-| `typesetting-documents-as-pdf` | Turning Markdown or text into a PDF, or when a PDF looks wrong | Chooses the toolchain from the content, measures the source before setting the page, then finds the layout defects a clean build hides: overflowing tables and code, wrong quotes, stranded headings, silently dropped glyphs. Ships inspection scripts and a build template. |
-| `documenting-existing-designs` | Describing a codebase or hardware design you did not write, including partial or mixed-revision trees | Produces a generated inventory first, puts a provenance tier on every claim, traces every number to a line, derives block diagrams from the netlist, flags anomalies instead of explaining them away, and verifies against real artefacts where they exist. |
+| `writing-technical-docs` | Writing, reviewing or fixing a design doc, spec, README, report, or explaining something in chat | Applies thirteen standards: derive rather than assert, define before first use (with notation tables that carry code names, and every tool and command said what it is at its first use in each chapter), illustrate concepts, keep the document self-contained, write for two audiences, verify visuals, show every artefact you name, generate numbers and cross-references, propagate corrections, no dashes as connectives, address the reader not the reviewer (a bare title page, nominal headings, no sentence about the document itself), one running example (the product's own case in a document about a product), point by name or anchor. Adds sentence rules (one idea, at most 40 words, no semicolon, the noun in the sentence, no code identifier standing in for an idea) and a register of plain sentences with real counts. Prescribes the process: the heading tree approved first and frozen, one writer for the whole text, fresh outsider readers per chapter who know none of the stack, one audience read of the whole document with a verdict per criterion, bounded verification with the owner's yes before any sweep, one delivery with verdicts. Includes the two reader briefs and a reference on engineering prose in Ukrainian. |
+| `reporting-experiments` | Writing up measured results: a comparison, benchmark, A/B test, parameter sweep, verification campaign or test report | Fixes the shape of the report: derived conditions, the measurement ceiling, calibrated metrics, controls before mechanisms, what the test does not show, how to reproduce it, a ledger of defects found on the way, and records that carry their commit and run times and are re-made when the thing under test changes. |
+| `typesetting-documents-as-pdf` | Turning Markdown or text into a PDF, or when a PDF looks wrong | Chooses the toolchain from the content, measures the source before setting the page, then finds the layout defects a clean build hides: overflowing tables and code, wrong quotes, stranded headings, silently dropped glyphs, and the ones a long document grows: loose lines, breaks inside what the reader copies, stranded lead-ins, empty page feet, split short tables and listings, references by name, citations that resolve, attachments by hash. Ships inspection scripts (section references, sentences, word gaps) and a build template; the page gate runs once, at the end. |
+| `documenting-existing-designs` | Describing a codebase or hardware design you did not write, including partial or mixed-revision trees | Produces a generated inventory first, puts a provenance tier on every claim, traces every number to a line, derives block diagrams from the netlist, flags anomalies instead of explaining them away, verifies against real artefacts where they exist, and closes with a verification statement and a «Not verified» list of what nobody ran. |
 
-The `/review-doc [path]` command runs the full audit on a document: it lists every
-violation grouped by standard, fixes each class in one pass, and re-inspects any figure
-or PDF it touched. A Ukrainian document also gets the prose reference; a document with
-measured results also gets the reporting-experiments checklist.
+The `/review-doc [path]` command runs the full audit on a document: the outsider read of
+each chapter first, then every violation grouped by standard, the mechanical sweeps, each
+class fixed in one pass by one writer, a bounded verification, and, for a finished
+document, the audience read with its verdict per criterion. A Ukrainian document also
+gets the prose reference; a document with measured results also gets the
+reporting-experiments checklist; a document about a system someone else built also gets
+documenting-existing-designs.
 
 ### Make the standards apply to first drafts too
 
@@ -104,8 +107,12 @@ vectors as vectors); (4) keep it self-contained, no load-bearing links to other 
 (5) readable by a non-specialist engineer as well as an expert; (6) render and visually
 inspect every figure/PDF before calling it done. When fixing feedback, sweep the whole
 document for that *class* of issue in one pass; never patch only the flagged spot.
-No em or en dashes as connectives, no status labels in titles. Documents in
-Ukrainian use the field's vocabulary, not calques. Run `/review-doc` for a full audit.
+No em or en dashes as connectives, no status labels in titles. One idea per sentence,
+at most 40 words, no semicolon in prose; every tool and command said what it is at its
+first use in each chapter; a bare title page and nominal headings. One writer for the
+whole text; before I see it, a reader who knows none of the stack reads each chapter and
+one reader reads the whole document as its audience. Documents in Ukrainian use the
+field's vocabulary, not calques. Run `/review-doc` for a full audit.
 ```
 
 ## fpga-design
