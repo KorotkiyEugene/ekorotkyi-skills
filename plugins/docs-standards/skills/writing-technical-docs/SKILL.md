@@ -459,10 +459,15 @@ semicolon. The rest is enforced by the reads below.
    the standard.
 7. Verification is bounded, because an agent asked to find defects finds defects every
    time, and each fresh hunter applies a stricter bar than the last. Before the first
-   verification agent starts, the stop condition and the budget are written down. The
-   criterion for a finding is closed: «false against its source» or «an instance of the
-   class the owner stated, in the owner's words». Two verification passes at most; a third
-   needs the owner's word. A sweep of a class begins with the class restated in one
+   verification agent starts, the stop condition and the budget (rounds, hours, tokens)
+   are written down and told to the owner. The criterion for a finding is closed: «false
+   against its source» or «an instance of the class the owner stated, in the owner's
+   words». Two verification passes at most; a third needs the owner's word. A pass that
+   finds nothing of a new kind ends the stage, and when the second pass finds a different
+   kind of fault than the first, the agent stops and reports instead of iterating. «Until
+   a check finds nothing» is not a stopping rule. When the owner asks how long, the
+   answer is the state, the time spent against the estimate given, and the two ways: take
+   the current green build now, or wait the stated time for the remaining steps. A sweep of a class begins with the class restated in one
    sentence and three to five old/new examples shown to the owner, and no sweep runs
    before the owner's yes: a wrong class swept perfectly is still wrong, and a class
    derived from one example («every count shows its parts» from one unparseable count) is
@@ -559,7 +564,7 @@ Run this before calling a document done. Answer each with a concrete location, n
 - [ ] **Counts and details:** no count that helps no reader, no detail a figure or table beside the sentence shows, every legend entry and label a sentence.
 - [ ] **Facts and sources:** in a document about a system, every statement comes from a cited line or record, what was not run is in «Not verified», and nothing was added that nobody asked for.
 - [ ] **Form:** the title page is bare, headings are noun phrases of one kind per level, the chapters the title promises exist, the approved heading tree is unchanged, no sentence talks about the document itself.
-- [ ] **Bounded:** the verification had a written stop condition and budget, at most two passes, and the owner saw old/new examples before any sweep.
+- [ ] **Bounded:** the verification had a stop condition and a budget written down and told to the owner, at most two passes, a stop when a pass found nothing new or a different kind of fault, and the owner saw old/new examples before any sweep.
 - [ ] **Systematic:** if this pass was triggered by one piece of feedback, the whole *class* of that issue was swept, not just the flagged instance.
 
 ## Red flags that you are drifting
