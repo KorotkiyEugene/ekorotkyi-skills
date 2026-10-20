@@ -11,7 +11,7 @@
     {
       "name": "docs-standards",
       "source": "./plugins/docs-standards",
-      "description": "Technical-documentation quality standards (for documents and for explanations given in chat), an audit workflow, the shape of a measurement or comparison report, PDF typesetting with section-reference and glyph checking, and analysis reports of existing designs verified against real artefacts (writing-technical-docs + reporting-experiments + typesetting-documents-as-pdf + documenting-existing-designs skills, /review-doc command)."
+      "description": "Technical-documentation quality standards (for documents and for explanations given in chat), an audit workflow, the shape of a measurement or comparison report, PDF typesetting with section-reference and glyph checking, analysis reports of existing designs verified against real artefacts, research design documents with refutable hypotheses and a candidate sieve, and theses or R&D reports written from artefacts with a literature review protocol (writing-technical-docs + reporting-experiments + typesetting-documents-as-pdf + documenting-existing-designs + designing-research-studies + writing-research-reports skills, /review-doc command)."
     },
     {
       "name": "fpga-design",

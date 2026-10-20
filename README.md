@@ -1,13 +1,13 @@
 # ekorotkyi-skills
 
 A [Claude Code](https://code.claude.com/docs/en/overview) plugin marketplace with three
-plugins, fifteen skills and one command. The skills encode engineering discipline for
+plugins, seventeen skills and one command. The skills encode engineering discipline for
 technical writing, FPGA/ASIC design and Verilog/SystemVerilog coding, so Claude applies
 the same practices in every project where the plugins are installed.
 
 | Plugin | Skills | What it enforces |
 |---|---|---|
-| [docs-standards](#docs-standards) | 4 skills, 1 command | Technical documents and chat explanations that derive every claim, define every term before use, and verify every figure. Measurement reports, PDF typesetting, and analysis of inherited designs. |
+| [docs-standards](#docs-standards) | 6 skills, 1 command | Technical documents and chat explanations that derive every claim, define every term before use, and verify every figure. Measurement reports, PDF typesetting, and analysis of inherited designs. Research design documents with refutable hypotheses, and theses or R&D reports written from artefacts. |
 | [fpga-design](#fpga-design) | 3 skills | RTL that synthesises into the intended hardware, timing constraints on every build, and build reports read rather than trusted. |
 | [sunburst-hdl](#sunburst-hdl) | 8 skills | Verilog/SystemVerilog rules distilled from Cliff Cummings' Sunburst Design papers: race-free coding, async FIFOs, clock-domain crossing, FSMs, case statements, SVA, simulation speed. |
 
@@ -67,7 +67,7 @@ contributor trusts the folder, and the plugins install at the next session start
 
 ## docs-standards
 
-Standards for technical writing, a production process and an audit workflow. Version 0.8.0.
+Standards for technical writing, a production process and an audit workflow. Version 0.9.0.
 
 | Skill | Fires when | What it does |
 |---|---|---|
@@ -75,6 +75,8 @@ Standards for technical writing, a production process and an audit workflow. Ver
 | `reporting-experiments` | Writing up measured results: a comparison, benchmark, A/B test, parameter sweep, verification campaign or test report | Fixes the shape of the report: derived conditions, the measurement ceiling, calibrated metrics, controls before mechanisms, what the test does not show, how to reproduce it, a ledger of defects found on the way, and records that carry their commit and run times and are re-made when the thing under test changes. |
 | `typesetting-documents-as-pdf` | Turning Markdown or text into a PDF, or when a PDF looks wrong | Chooses the toolchain from the content, measures the source before setting the page, then finds the layout defects a clean build hides: overflowing tables and code, wrong quotes, stranded headings, silently dropped glyphs, and the ones a long document grows: loose lines, breaks inside what the reader copies, stranded lead-ins, empty page feet, split short tables and listings, references by name, citations that resolve, attachments by hash. Ships inspection scripts (section references, sentences, word gaps) and a build template; the page gate runs once, at the end. |
 | `documenting-existing-designs` | Describing a codebase or hardware design you did not write, including partial or mixed-revision trees | Produces a generated inventory first, puts a provenance tier on every claim, traces every number to a line, derives block diagrams from the netlist, flags anomalies instead of explaining them away, verifies against real artefacts where they exist, and closes with a verification statement and a «Not verified» list of what nobody ran. |
+| `designing-research-studies` | Planning an R&D study, a thesis project, a method comparison or a measurement campaign before anything is run | Gives the research design document its shape: hypotheses with the result that refutes them, the candidate space with numbered sieve criteria and checkpoints (the sieve is a result), an evaluation protocol with splits by record, condition bands, seeds and operating points chosen on validation, a reproduced point of reference, the compute budget with the order of cuts and the never-cut path, and rulings and handoffs while the study runs. Ships a design-document template. |
+| `writing-research-reports` | Writing or revising a thesis, an explanatory note, an R&D report, a paper's introduction, review, methods, results or conclusions, an abstract, a statement of novelty | Writes the chapters from artefacts in order (review from the literature protocol, methods from code and configurations, results from generated tables, conclusions, abstract and introduction last), fixes the introduction paragraph by paragraph, closes the review with gap and hypotheses tables, reports results by condition band with the discarded candidates, sets the impersonal register and glossary discipline, and ends with a pre-submission checklist. Ships a structure-and-checklist reference distilled from public thesis guides and a literature review protocol with a verified bibliography. |
 
 The `/review-doc [path]` command runs the full audit on a document: the outsider read of
 each chapter first, then every violation grouped by standard, the mechanical sweeps, each

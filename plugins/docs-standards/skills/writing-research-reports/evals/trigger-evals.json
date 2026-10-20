@@ -1,0 +1,46 @@
+[
+  {
+    "query": "напиши вступ до пояснювальної записки магістерської роботи: актуальність, мета, задачі, об'єкт, предмет, наукова новизна, практичне значення",
+    "should_trigger": true
+  },
+  {
+    "query": "write the related-work chapter for my thesis on neural detectors for radar signals; the papers and their numbers are in the review notes",
+    "should_trigger": true
+  },
+  {
+    "query": "напиши розділ «Методи й матеріали» з коду й конфігурацій: генератор даних, набори, протокол оцінювання",
+    "should_trigger": true
+  },
+  {
+    "query": "draft the abstract and the conclusions of the R&D report from the results tables",
+    "should_trigger": true
+  },
+  {
+    "query": "the committee says the introduction promises things the results don't show and the review is just a list of papers; fix the thesis",
+    "should_trigger": true
+  },
+  {
+    "query": "як сформулювати наукову новизну роботи відносно найближчого прототипу?",
+    "should_trigger": true
+  },
+  {
+    "query": "make a skeleton of the explanatory note by the department template with chapter lengths and where the main tables go",
+    "should_trigger": true
+  },
+  {
+    "query": "plan the experiments and the sieve criteria before we train anything",
+    "should_trigger": false
+  },
+  {
+    "query": "write up the results of the comparison between the old and the new canceller from the csv tables",
+    "should_trigger": false
+  },
+  {
+    "query": "document the architecture of this inherited FPGA project",
+    "should_trigger": false
+  },
+  {
+    "query": "convert this markdown report to a PDF and check the tables fit the page",
+    "should_trigger": false
+  }
+]

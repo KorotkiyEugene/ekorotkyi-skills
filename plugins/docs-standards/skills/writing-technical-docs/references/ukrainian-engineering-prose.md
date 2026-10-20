@@ -67,3 +67,71 @@ grep -n -i "шумов[а-я]* підлог\|промпт\|захват\|фік�
 
 Every hit is rewritten, not just the first; a calque is a class, and a reader who finds
 one looks for the rest.
+
+## Vocabulary of research and machine-learning work
+
+A thesis or an R&D report in Ukrainian is read by examiners who stop at the first
+transliterated English word. The left column is the established form; the right column
+is what drafts contain and what reviewers strike out. The English term may appear once,
+in parentheses, at the first use, when the reader needs it to search the literature.
+
+| Use | Not | Why |
+|---|---|---|
+| набір даних | датасет | calque |
+| опорний метод, опорний результат | бейзлайн | calque |
+| контрольна точка перевірки, етап перевірки | гейт, ворота | calque of "gate" |
+| перевірка працездатності на мінімальних даних | димовий тест, смок-тест | calque of "smoke test" |
+| режим мінімальних підвибірок | smoke-режим | |
+| конвеєр обробки | пайплайн | calque |
+| обсяг роботи | скоуп | |
+| розгортання (на платі, на платформі) | деплой | |
+| виконання моделі, обчислення виходу мережі | інференс | |
+| середовище виконання | рантайм | |
+| пакет прикладів, розмір пакета | батч | |
+| збережений стан моделі | чекпоінт | |
+| файл налаштувань, конфігурація | конфіг | |
+| початкове значення (зерно) генератора випадкових чисел | сід | |
+| навчальна, валідаційна, тестова вибірки; розбиття | трейн, вал, тест; спліт | |
+| ознаки | фічі | |
+| мітка, розмітка | лейбл | |
+| приклад, зразок, відлік | семпл | |
+| підбір гіперпараметрів; перебір за сіткою | тюнінг; грід-серч | |
+| перенавчання | оверфіт | |
+| витік даних між вибірками | лік | |
+| донавчання; передтренування | файнтюнінг; претрейн | |
+| доповнення даних | аугментація | |
+| квантування (після навчання; з урахуванням квантування) | квантизація | the Ukrainian technical term is квантування |
+| спільна базова мережа (екстрактор ознак); вихідна гілка | бекбон; голова | a network has no head in Ukrainian; a гілка is what it has |
+| обмежувальна рамка | бокс | |
+| фрагмент (зображення, спектрограми) | тайл | |
+| придушення немаксимумів | НМС as a word | the abbreviation NMS may follow the term once |
+| пропускна здатність; затримка | тхрупут; лейтенсі | |
+| використання ресурсів | утилізація | |
+| часові обмеження, аналіз часових характеристик | таймінги | |
+| тактова частота | клок | |
+| IP-ядро | айпі | |
+| порівняльне дослідження з вилученням компонента | абляція | |
+| остаточні методи, методи, що пройшли відсів | фіналісти | |
+| робочий процес | воркфлоу | |
+
+Register of the genre, learnt from rejected drafts:
+
+- Impersonal forms carry the text: «у роботі запропоновано», «виміряно», «показано»,
+  «встановлено». No «я» and no «ми зробили»: the examiner reads the first person as a
+  diary, and the department template does not allow it.
+- A heading names the subject of the analysis as a noun phrase («Аналіз методів
+  виявлення…», «Протокол оцінювання»), never a person, a metaphor or working jargon
+  («Що робимо далі», «Точка відліку», «Наш підхід»).
+- Percentage points are «п.п.», never «%» when a difference of two percentages is meant.
+- A Cyrillic abbreviation is used after its first definition («відношення сигнал/шум
+  (ВСШ)»); a Latin one stays only for established designations (FPGA, GPU, STFT, IQ)
+  and is listed in the abbreviations table.
+- Ranges and comparisons without dashes: «від −10 до 0 дБ», «13...15 с», «у 2,5 раза».
+- Decimal comma in the prose and the tables of a Ukrainian document (24,7 дБ); the
+  results files keep the decimal point, and the table script converts once.
+
+The sweep for this section, run over the prose and the figure scripts before delivery:
+
+```bash
+grep -n -i "датасет\|бейзлайн\|гейт\b\|ворота\|смок\|димов\|пайплайн\|скоуп\|деплой\|інференс\|рантайм\|батч\|чекпоінт\|конфіг\b\|сід\b\|спліт\|фіч\|лейбл\|семпл\|тюнінг\|оверфіт\|файнтюн\|претрейн\|аугментац\|квантизац\|бекбон\|голов[аи] мереж\|бокс\|тайл\|тхрупут\|лейтенсі\|утилізац\|таймінг\|клок\|айпі\|абляц\|фіналіст\|воркфлоу" docs/*.md
+```

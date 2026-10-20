@@ -1,0 +1,42 @@
+[
+  {
+    "query": "we want to compare three neural detectors against a classical threshold detector on spectrograms for a thesis; help me plan the experiments before we train anything",
+    "should_trigger": true
+  },
+  {
+    "query": "сформулюй гіпотези дослідження так, щоб їх можна було спростувати, і протокол оцінювання за смугами відношення сигнал/шум",
+    "should_trigger": true
+  },
+  {
+    "query": "write the research design document for a study of quantised networks on an FPGA accelerator: goals, non-goals, candidates, sieve criteria, checkpoints",
+    "should_trigger": true
+  },
+  {
+    "query": "which baseline should we use and how do we make the comparison fair? the published numbers come from a different dataset",
+    "should_trigger": true
+  },
+  {
+    "query": "the reviewer asks what would falsify our main claim and whether the operating point was chosen on the test set",
+    "should_trigger": true
+  },
+  {
+    "query": "ми маємо один GPU і два місяці: склади план експериментів з порядком, що урізати, якщо не встигнемо",
+    "should_trigger": true
+  },
+  {
+    "query": "write up the results of the detector comparison from the csv tables",
+    "should_trigger": false
+  },
+  {
+    "query": "draw the block diagram of this inherited RTL project and list the missing modules",
+    "should_trigger": false
+  },
+  {
+    "query": "fix the em dashes and undefined symbols in this design note",
+    "should_trigger": false
+  },
+  {
+    "query": "напиши вступ до пояснювальної записки з метою, задачами й науковою новизною",
+    "should_trigger": false
+  }
+]
