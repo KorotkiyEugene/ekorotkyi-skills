@@ -20,7 +20,11 @@ Three thresholds, each measured on the page in points:
   own norm (3.7 pt, between the loosest caption line accepted and the tightest named loose).
 
 The thresholds depend on the body font and size. For another font, run the script with --report on a
-build a page reader has looked at, and set them from that reader's verdicts as above.
+build a page reader has looked at, and set them from that reader's verdicts as above. Text set smaller
+than the body (an appendix at 9 pt under an 11-pt body) is read too: the script takes the body's size
+as the median word box over every justified line, and for a line set smaller it scales the code-font
+test and the thresholds down by the line's size, so that such a line is neither taken for code and
+skipped nor judged by the body's thresholds.
 
 What counts as a justified line: a line of four words or more that starts at the text block's left
 edge and ends at its right edge, in the body's size. Lines of the contents (dot leaders are words to
@@ -51,21 +55,34 @@ BODY_HEIGHT = 11    # pt, a taller first word is a heading
 MONO_HEIGHT = 10    # pt, a word box lower than this is the monospaced font (set from your font pair)
 
 
-def gaps_of(words):
+def gaps_of(words, mono_height=MONO_HEIGHT):
     """The word spaces of a line: a gap with a word of the body's font on at least one side; and, when
     the line holds three or more of them, only the gaps between two words of the prose. A space inside
     a code span never stretches, and a code span's own comma or bracket sits at its edge and would pull
-    the median down while the prose words stand apart."""
-    mono = [float(w[3]) - float(w[1]) < MONO_HEIGHT for w in words]
+    the median down while the prose words stand apart. mono_height is MONO_HEIGHT scaled to the size of
+    the line's text."""
+    mono = [float(w[3]) - float(w[1]) < mono_height for w in words]
     gaps = [float(words[j + 1][0]) - float(words[j][2]) for j in range(len(words) - 1) if not (mono[j] and mono[j + 1])]
     prose = [float(words[j + 1][0]) - float(words[j][2]) for j in range(len(words) - 1)
              if not mono[j] and not mono[j + 1] and not re.search(r"[.:;?!]»?\)?$", html.unescape(words[j][4]))]
     return (prose if len(prose) >= 3 else gaps), gaps
 
 
+def monospaced(words) -> bool:
+    """A line set wholly in the monospaced font: every character of it has the same advance, so the width
+    of each word divided by its number of characters is the same for every word (within 3 %), which a
+    proportional font never gives a line of four words or more. Such a line is a listing, not justified
+    prose, whatever its size, and the size test alone cannot tell it from prose set at the same size."""
+    advances = [(float(w[2]) - float(w[0])) / len(html.unescape(w[4])) for w in words if len(html.unescape(w[4])) >= 2]
+    if len(advances) < 3:
+        return False
+    mid = statistics.median(advances)
+    return all(abs(a - mid) <= 0.03 * mid for a in advances)
+
+
 def loose_lines(pdf: str, skip_front: int):
     out = subprocess.run(["pdftotext", "-bbox-layout", pdf, "-"], capture_output=True, text=True, check=True).stdout
-    hits, medians, captions = [], [], []
+    hits, medians, captions, justified = [], [], [], []
     word_re = r'<word xMin="([0-9.]+)" yMin="([0-9.]+)" xMax="([0-9.]+)" yMax="([0-9.]+)">(.*?)</word>'
     for page, body in enumerate(out.split("<page ")[1:], 1):
         # a caption's lines but its last: a block that opens with «Figure N:» or «Table N:»
@@ -99,14 +116,24 @@ def loose_lines(pdf: str, skip_front: int):
             text = " ".join(html.unescape(w[4]) for w in words)
             if ". . ." in text:          # a line of the contents: its dot leaders are not word spaces
                 continue
-            gaps, every = gaps_of(words)
-            if len(gaps) < 3:
+            if monospaced(words):        # a line of a listing that happens to fill the measure
                 continue
-            median = statistics.median(gaps)
-            medians.append(median)
-            mean = sum(every) / len(every)
-            if median >= MIN_GAP or mean >= MEAN_GAP:
-                hits.append((page, median if median >= MIN_GAP else mean, text))
+            justified.append((page, words, text, max(float(w[3]) - float(w[1]) for w in words)))
+    # The size of a line's text is its tallest word box. The body's size is the median box over every
+    # justified line, and a line set smaller (an appendix at 9 pt) scales the code-font test and the
+    # thresholds down by its size; the medians are recorded at the body's size.
+    body_box = statistics.median(box for _, _, _, box in justified) if justified else 0
+    for page, words, text, box in justified:
+        scale = box / body_box if body_box else 1
+        gaps, every = gaps_of(words, MONO_HEIGHT * scale)
+        if len(gaps) < 3:
+            continue
+        median = statistics.median(gaps)
+        medians.append(median / scale)
+        mean = sum(every) / len(every)
+        if median >= MIN_GAP * scale or mean >= MEAN_GAP * scale:
+            note = f"  [text at {scale:.2f} of the body size]" if abs(scale - 1) > 0.02 else ""
+            hits.append((page, median if median >= MIN_GAP * scale else mean, text + note))
     return hits, medians, captions
 
 

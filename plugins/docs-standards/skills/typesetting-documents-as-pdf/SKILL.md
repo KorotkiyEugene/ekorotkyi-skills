@@ -280,7 +280,9 @@ and fails the build; none replaces looking at the pages.
   of the font's spaces, and the engine warns only above a badness of 1000, while the eye
   draws the line near 5 pt. The thresholds were set from one page reader's verdicts on one
   font; for another font, run the script with `--report` on a build a reader has looked
-  at and set them from that reader's loose and accepted lines. The fix is a non-breaking
+  at and set them from that reader's loose and accepted lines. Text set smaller than the
+  body, such as an appendix at 9 pt, is read with the thresholds scaled to its size, since
+  a word box under the body's code-font height is otherwise taken for code and skipped. The fix is a non-breaking
   space or a hyphenation hint first, a recast of the sentence only where the setting
   cannot do it.
 - **Breaks inside what the reader copies.** No line ends inside an identifier, a path, a
